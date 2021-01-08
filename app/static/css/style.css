@@ -1,0 +1,7 @@
+
+#signup-modal .modal-content, #login-modal .modal-content {
+	overflow: hidden;
+}
+.login-container, .signup-container {
+	height: auto;
+}

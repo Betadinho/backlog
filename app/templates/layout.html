@@ -1,0 +1,262 @@
+<!DOCTYPE html>   <!-- TODO: Toggle valid / invalid input decorations based on validation -->
+<html lang="en" dir="ltr">
+	<head>
+		<% block head %>
+		<meta charset="utf-8">
+		<title>
+			<% block title %><% endblock %> | Backlog
+		</title>
+		<link rel="stylesheet" href="## url_for('static', filename='css/darkmode/darkly.css') ##">
+		<link rel="stylesheet" href="## url_for('static', filename='css/style.css') ##">
+		<% endblock %>
+	</head>
+	<body>
+		<nav class="navbar primary-color" role="navigation" aria-label="main navigation">
+		  <div class="navbar-brand">
+		    <a class="navbar-item" href="/">
+		      <!-- <img src="" width="112" height="28"> -->
+			  <p>|||<b> Backlog</b></p>
+		    </a>
+
+		    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+		      <span aria-hidden="true"></span>
+		      <span aria-hidden="true"></span>
+		      <span aria-hidden="true"></span>
+		    </a>
+		  </div>
+
+		  <div id="navbarBasicExample" class="navbar-menu">
+		    <div class="navbar-start">
+		      <a class="navbar-item">
+		        Home
+		      </a>
+
+		      <a class="navbar-item">
+		        Documentation
+		      </a>
+
+		      <div class="navbar-item has-dropdown is-hoverable">
+		        <a class="navbar-link">
+		          More
+		        </a>
+
+		        <div class="navbar-dropdown">
+		          <a class="navbar-item">
+		            About
+		          </a>
+		          <a class="navbar-item">
+		            Contact
+		          </a>
+		          <hr class="navbar-divider">
+		          <a class="navbar-item">
+		            Report an issue
+		          </a>
+		        </div>
+		      </div>
+		    </div>
+
+		    <div class="navbar-end">
+		      <div class="navbar-item">
+		        <div class="buttons">
+		          <a id="signup-button" class="button is-primary">
+		            <strong>Sign up</strong>
+		          </a>
+		          <a id="login-button" class="button is-light">
+		            Log in
+		          </a>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</nav>
+
+		<!-- Onboarding Modals START -->
+		<div class="modal" id="signup-modal">
+			<div class="modal-background">
+			</div>
+			<div class="modal-content">
+				<div class="box signup-container">
+					<div class="has-text-centered"><h1 class=title is-1>SignUp</h1></div>
+
+					<form action="">
+						<div class="field">
+						  <label class="label">Username</label>
+						  <div class="control has-icons-left has-icons-right">
+						    <input class="input is-success" type="text" placeholder="Text input" value="bulma">
+						    <span class="icon is-small is-left">
+						      <i class="fas fa-user"></i>
+						    </span>
+						    <span class="icon is-small is-right">
+						      <i class="fas fa-check"></i>
+						    </span>
+						  </div>
+						  <p class="help is-success">This username is available</p>
+						</div>
+
+						<div class="field">
+						  <label class="label">Email</label>
+						  <div class="control has-icons-left has-icons-right">
+						    <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
+						    <span class="icon is-small is-left">
+						      <i class="fas fa-envelope"></i>
+						    </span>
+						    <span class="icon is-small is-right">
+						      <i class="fas fa-exclamation-triangle"></i>
+						    </span>
+						  </div>
+						  <p class="help is-danger">This email is invalid</p>
+						</div>
+
+                        <div class="field">
+                            <label class="label">Password</label>
+                            <p class="control has-icons-left">
+                                <input class="input" type="password" placeholder="Password">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </p>
+                        </div>
+
+                        <div class="field">
+                            <label class="label"> Repeat Password</label>
+                            <p class="control has-icons-left">
+                                <input class="input" type="password" placeholder="Password">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </p>
+                        </div>
+
+						<div class="field">
+						  <label class="label">Subject</label>
+						  <div class="control">
+						    <div class="select">
+						      <select>
+						        <option>Select dropdown</option>
+						        <option>With options</option>
+						      </select>
+						    </div>
+						  </div>
+						</div>
+
+						<div class="field">
+						  <div class="control">
+						    <label class="checkbox">
+						      <input type="checkbox">
+						      I agree to the <a href="#">terms and conditions</a>
+						    </label>
+						  </div>
+						</div>
+
+						<div class="field">
+						  <div class="control">
+						    <label class="checkbox">
+						      <input type="checkbox" name="remember-me">
+						      Remember me
+						    </label>
+						  </div>
+						</div>
+
+						<div class="field is-grouped">
+						  <div class="control">
+						    <button class="button is-link">Submit</button>
+						  </div>
+						  <div class="control">
+						    <button class="button is-link is-light">Cancel</button>
+						  </div>
+						</div> <!-- Signup-Modal form end -->
+					</form>
+
+				</div>
+			</div>
+			<button class="modal-close is-large" aria-label="close"></button>
+		</div> <!-- Sign-up Modals END -->
+
+		<div class="modal" id="login-modal">
+			<div class="modal-background">
+			</div>
+			<div class="modal-content">
+                <div class="box login-container">
+                    <div class="has-text-centered">
+                        <h1 class=title is-1>Login</h1>
+                    </div>
+                    <form action="">
+                        <div class="field">
+                            <label class="label">Email</label>
+                                <div class="control has-icons-left has-icons-right">
+                                <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    <span class="icon is-small is-right">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
+                                </div>
+                                <!-- CToggle valid / invalid base on validation -->
+                            <p class="help is-danger">This email is invalid</p>
+                        </div>
+
+                        <div class="field">
+                            <p class="control has-icons-left">
+                            <label class="label">Password</label>
+                                <input class="input" type="password" placeholder="Password">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </p>
+                        </div>
+
+
+						<div class="field">
+						  <div class="control">
+						    <label class="checkbox">
+						      <input type="checkbox">
+						      I agree to the <a href="#">terms and conditions</a>
+						    </label>
+						  </div>
+						</div>
+
+						<div class="field">
+						  <div class="control">
+						    <label class="checkbox">
+						      <input type="checkbox" name="remember-me">
+						      Remember me
+						    </label>
+						  </div>
+						</div>
+
+						<div class="field is-grouped">
+						  <div class="control">
+						    <button class="button is-link">Submit</button>
+						  </div>
+						  <div class="control">
+						    <button class="button is-link is-light">Cancel</button>
+						  </div>
+						</div> <!-- Signup-Modal form end -->
+                    </form>
+  				</div>
+			</div>
+			<button class="modal-close is-large" aria-label="close"></button>
+		</div>
+
+		<div class="modal" id="logout-modal">
+			<div class="modal-background">
+			</div>
+			<div class="modal-content">
+  				<!-- Any other Bulma elements you want -->
+				<p>logout</p>
+			</div>
+			<button class="modal-close is-large" aria-label="close"></button>
+		</div> <!-- Logout Modals END -->
+
+
+		<div class="container content">
+		<% block content %>
+		<% endblock %>
+		</div>
+
+		<% block footer %>
+		<% endblock %>
+		<script src="## url_for('static', filename='js/script.js') ##" charset="utf-8"></script>
+	</body>
+</html>
