@@ -40,18 +40,31 @@ Initial Commit
     install flask and dependencies (Done)
     create basic application frame (Done)
 
-Login/auth
+Login/auth (in progress)
 	Build Template (extend layout.html):
-	- Create login modal
-	- Create sign-up modal
+	- Create login modal (Done)
+	- Create sign-up modal (Done)
 
-	Create User Model
-	Create Database to hold users
-	Add Controllers to handle auth requests
+	Create User Model (Done)
+	Create Database to hold users (Done) {from app import db, create_app, db.create_all(app=create_app())}
+    make auth forms post to auth controller (done)
+	Add Controllers to handle signup requests (done)
 
-Write Dev Setup guide (side work)
+	Add Controllers to handle login requests (done)
+	Add Controllers to handle logout requests (done)
 
-Format Readme for correct styling (side work)
+Landing Page - (in progress)
+/*Also for prototyping purpose*/
+    Shown when not logged in so there is no Dashboard to show
+    Dashboard mock-up with Dummy Project to try some features
+
+
+SideWork:
+Write Dev Setup guide
+Write User Guide/Documentation 
+Write Terms and Conditions
+Format Readme
+
 
 
 ## Dev Setup:
@@ -61,10 +74,13 @@ Get my "backlog-dev" venv and install it
 If you are on Windows, the environment variable syntax depends on command line interpreter.
 
 On Command Prompt:
+
 FLASK_APP=app.py
+set FLASK_ENV=development
 
 And on PowerShell:
 $env:FLASK_APP = "app.py"
+$env:FLASK_ENV = "development"
 
 Then run the application using the development server:
 flask run

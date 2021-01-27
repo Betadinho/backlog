@@ -1,14 +1,14 @@
 <!DOCTYPE html>   <!-- TODO: Toggle valid / invalid input decorations based on validation -->
 <html lang="en" dir="ltr">
 	<head>
-		<% block head %>
+		{% block head %}
 		<meta charset="utf-8">
 		<title>
-			<% block title %><% endblock %> | Backlog
+			{% block title %}{% endblock %} | Backlog
 		</title>
-		<link rel="stylesheet" href="## url_for('static', filename='css/darkmode/darkly.css') ##">
-		<link rel="stylesheet" href="## url_for('static', filename='css/style.css') ##">
-		<% endblock %>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/darkmode/darkly.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+		{% endblock %}
 	</head>
 	<body>
 		<nav class="navbar primary-color" role="navigation" aria-label="main navigation">
@@ -58,17 +58,31 @@
 		    <div class="navbar-end">
 		      <div class="navbar-item">
 		        <div class="buttons">
-		          <a id="signup-button" class="button is-primary">
-		            <strong>Sign up</strong>
-		          </a>
-		          <a id="login-button" class="button is-light">
-		            Log in
-		          </a>
+		        {% if not current_user.is_authenticated %}
+                    <a id="signup-button" class="button is-primary">
+		                <strong>Sign Up</strong>
+                    </a>
+                    <a id="login-button" class="button is-light">
+		                Log in
+		            </a>
+                {% endif %}
+                
+                {% if current_user.is_authenticated %}
+                    <a id="logout-button" class="button is-primary" href="{{ url_for('auth.logout') }}">Logout</a>
+                {% endif %}
 		        </div>
 		      </div>
 		    </div>
 		  </div>
 		</nav>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger has-text-centered">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
 
 		<!-- Onboarding Modals START -->
 		<div class="modal" id="signup-modal">
@@ -76,13 +90,13 @@
 			</div>
 			<div class="modal-content">
 				<div class="box signup-container">
-					<div class="has-text-centered"><h1 class=title is-1>SignUp</h1></div>
+					<div class="has-text-centered"><h1 class=title is-1>Sign Up</h1></div>
 
-					<form action="">
+					<form action="/sign-up" method="POST">
 						<div class="field">
 						  <label class="label">Username</label>
 						  <div class="control has-icons-left has-icons-right">
-						    <input class="input is-success" type="text" placeholder="Text input" value="bulma">
+						    <input class="input is-success" type="text" name="name" placeholder="Username" value="">
 						    <span class="icon is-small is-left">
 						      <i class="fas fa-user"></i>
 						    </span>
@@ -96,7 +110,7 @@
 						<div class="field">
 						  <label class="label">Email</label>
 						  <div class="control has-icons-left has-icons-right">
-						    <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
+						    <input class="input is-danger" type="email" name="email" placeholder="example@mail.com" value="">
 						    <span class="icon is-small is-left">
 						      <i class="fas fa-envelope"></i>
 						    </span>
@@ -110,7 +124,7 @@
                         <div class="field">
                             <label class="label">Password</label>
                             <p class="control has-icons-left">
-                                <input class="input" type="password" placeholder="Password">
+                                <input class="input" type="password" name="password" placeholder="********">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
@@ -120,7 +134,7 @@
                         <div class="field">
                             <label class="label"> Repeat Password</label>
                             <p class="control has-icons-left">
-                                <input class="input" type="password" placeholder="Password">
+                                <input class="input" type="password" placeholder="********">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
@@ -128,12 +142,12 @@
                         </div>
 
 						<div class="field">
-						  <label class="label">Subject</label>
+						  <label class="label">Account Type</label>
 						  <div class="control">
 						    <div class="select">
 						      <select>
-						        <option>Select dropdown</option>
-						        <option>With options</option>
+						        <option>Admin</option>
+						        <option>Basic User</option>
 						      </select>
 						    </div>
 						  </div>
@@ -180,11 +194,11 @@
                     <div class="has-text-centered">
                         <h1 class=title is-1>Login</h1>
                     </div>
-                    <form action="">
+                    <form action="/login" method="POST">
                         <div class="field">
                             <label class="label">Email</label>
                                 <div class="control has-icons-left has-icons-right">
-                                <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
+                                <input class="input is-danger" type="email" name="email" placeholder="example@mail.com" value="">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-envelope"></i>
                                     </span>
@@ -199,27 +213,17 @@
                         <div class="field">
                             <p class="control has-icons-left">
                             <label class="label">Password</label>
-                                <input class="input" type="password" placeholder="Password">
+                                <input class="input" type="password" name="password" placeholder="********">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
                             </p>
                         </div>
 
-
 						<div class="field">
 						  <div class="control">
 						    <label class="checkbox">
-						      <input type="checkbox">
-						      I agree to the <a href="#">terms and conditions</a>
-						    </label>
-						  </div>
-						</div>
-
-						<div class="field">
-						  <div class="control">
-						    <label class="checkbox">
-						      <input type="checkbox" name="remember-me">
+						      <input type="checkbox" name="remember">
 						      Remember me
 						    </label>
 						  </div>
@@ -229,34 +233,20 @@
 						  <div class="control">
 						    <button class="button is-link">Submit</button>
 						  </div>
-						  <div class="control">
-						    <button class="button is-link is-light">Cancel</button>
-						  </div>
-						</div> <!-- Signup-Modal form end -->
+						</div> <!-- Login-Modal form end -->
                     </form>
   				</div>
 			</div>
 			<button class="modal-close is-large" aria-label="close"></button>
 		</div>
 
-		<div class="modal" id="logout-modal">
-			<div class="modal-background">
-			</div>
-			<div class="modal-content">
-  				<!-- Any other Bulma elements you want -->
-				<p>logout</p>
-			</div>
-			<button class="modal-close is-large" aria-label="close"></button>
-		</div> <!-- Logout Modals END -->
-
-
 		<div class="container content">
-		<% block content %>
-		<% endblock %>
+		{% block content %}
+		{% endblock %}
 		</div>
 
-		<% block footer %>
-		<% endblock %>
-		<script src="## url_for('static', filename='js/script.js') ##" charset="utf-8"></script>
+		{% block footer %}
+		{% endblock %}
+		<script src="{{ url_for('static', filename='js/script.js') }}" charset="utf-8"></script>
 	</body>
 </html>
