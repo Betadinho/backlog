@@ -33,40 +33,6 @@ python-dotenv enables support for Environment Variables From dotenv when running
 watchdog      1.0.2
 Watchdog provides a faster, more efficient reloader for the development server.
 
-
-## TODO:
-Initial Commit
-    Create venv (Done)
-    install flask and dependencies (Done)
-    create basic application frame (Done)
-
-Login/auth (in progress)
-	Build Template (extend layout.html):
-	- Create login modal (Done)
-	- Create sign-up modal (Done)
-
-	Create User Model (Done)
-	Create Database to hold users (Done) {from app import db, create_app, db.create_all(app=create_app())}
-    make auth forms post to auth controller (done)
-	Add Controllers to handle signup requests (done)
-
-	Add Controllers to handle login requests (done)
-	Add Controllers to handle logout requests (done)
-
-Landing Page - (in progress)
-/*Also for prototyping purpose*/
-    Shown when not logged in so there is no Dashboard to show
-    Dashboard mock-up with Dummy Project to try some features
-
-
-SideWork:
-Write Dev Setup guide
-Write User Guide/Documentation 
-Write Terms and Conditions
-Format Readme
-
-
-
 ## Dev Setup:
 Easy:
 Get my "backlog-dev" venv and install it
@@ -74,6 +40,8 @@ Get my "backlog-dev" venv and install it
 If you are on Windows, the environment variable syntax depends on command line interpreter.
 
 On Command Prompt:
+
+pip install -r requirements.txt
 
 FLASK_APP=app.py
 set FLASK_ENV=development
