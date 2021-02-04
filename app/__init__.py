@@ -1,11 +1,12 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_wtf import csrf
+from flask_wtf.csrf import CSRFProtect
 from . import helpers as h
 
 # Init SQLAlchemy
 db = SQLAlchemy()
-
 #class CustomFlask(Flask):
 #   Configure custom jinja markers ##
 #   jinja_options = Flask.jinja_options.copy()
@@ -15,6 +16,8 @@ db = SQLAlchemy()
 #       comment_start_string='<#',
 #       comment_end_string='#>'
 #    ))
+
+csrf = CSRFProtect()
 
 def create_app():
     # Create eflask app with Customized Flask instance
@@ -34,12 +37,12 @@ def create_app():
 	# Delete old static endpoint rule and substitute own (helpers.del_static_rule)
     app = h.delete_static_rule(new_path="/app/static", app=app)
 
+    csrf.init_app(app)
     db.init_app(app)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
-
     from .models import User
 
     @login_manager.user_loader

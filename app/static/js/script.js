@@ -34,28 +34,36 @@ document.addEventListener('DOMContentLoaded', () => {
     //Signup modal toggle
 	signup_button.addEventListener('click', () => {
 		html[0].classList.add('is-clipped');
-		signup_modal.classList.add('is-active');
+        signup_modal.classList.add('is-active');
+        document.getElementById('signup-first-field').focus();
 
-		//Toggle modal off when close is clicked
-		modal_close = signup_modal.getElementsByClassName('modal-close')[0];
-		modal_close.addEventListener('click', () => {
-			html[0].classList.remove('is-clipped');
-			signup_modal.classList.remove('is-active');
-		});
+		//Toggle modal off when close (X in top right corner) or cancel button is clicked
+        var modal_close = signup_modal.querySelectorAll('.modal-close, .cancel-signup');
+        for(e of modal_close) {
+            e.addEventListener('click', () => {
+                html[0].classList.remove('is-clipped');
+                signup_modal.classList.remove('is-active');
+            });
+        };  
+        
+        
 	});
 
 	//Login modal toggle
 	login_button.addEventListener('click', () => {
 		//Toggle Modal to be visible
 		html[0].classList.add('is-clipped');
-		login_modal.classList.add('is-active');
+        login_modal.classList.add('is-active');
+        document.getElementById('login-first-field').focus();
 
 		//Toggle modal off when close is clicked
-		modal_close = login_modal.getElementsByClassName('modal-close')[0];
-		modal_close.addEventListener('click', () => {
-			html[0].classList.remove('is-clipped');
-			login_modal.classList.remove('is-active');
-		});
+		var modal_close = login_modal.querySelectorAll('.modal-close, .cancel-login');
+		for(e of modal_close) {
+            e.addEventListener('click', () => {
+                html[0].classList.remove('is-clipped');
+                login_modal.classList.remove('is-active');
+            });
+        };
 	});
 
 	//logout modal toggle

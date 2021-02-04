@@ -27,31 +27,31 @@
 
 		  <div id="navbarBasicExample" class="navbar-menu">
 		    <div class="navbar-start">
-		      <a class="navbar-item">
-		        Home
-		      </a>
+                <a class="navbar-item">
+                    Home
+                </a>
 
-		      <a class="navbar-item">
-		        Documentation
-		      </a>
+                <a class="navbar-item">
+                    Documentation
+                </a>
 
-		      <div class="navbar-item has-dropdown is-hoverable">
-		        <a class="navbar-link">
-		          More
-		        </a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        More
+                    </a>
 
-		        <div class="navbar-dropdown">
-		          <a class="navbar-item">
-		            About
-		          </a>
-		          <a class="navbar-item">
-		            Contact
-		          </a>
-		          <hr class="navbar-divider">
-		          <a class="navbar-item">
-		            Report an issue
-		          </a>
-		        </div>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item">
+                            About
+                        </a>
+                        <a class="navbar-item">
+                            Contact
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                            Report an issue
+                        </a>
+		            </div>
 		      </div>
 		    </div>
 
@@ -84,7 +84,7 @@
         {% endif %}
         {% endwith %}
 
-		<!-- Onboarding Modals START -->
+		<!-- Signup Modal START -->
 		<div class="modal" id="signup-modal">
 			<div class="modal-background">
 			</div>
@@ -93,10 +93,11 @@
 					<div class="has-text-centered"><h1 class=title is-1>Sign Up</h1></div>
 
 					<form action="/sign-up" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 						<div class="field">
 						  <label class="label">Username</label>
 						  <div class="control has-icons-left has-icons-right">
-						    <input class="input is-success" type="text" name="name" placeholder="Username" value="">
+						    <input id="signup-first-field" class="input is-success" type="text" name="name" placeholder="Username" value="" autocomplete="on" required>
 						    <span class="icon is-small is-left">
 						      <i class="fas fa-user"></i>
 						    </span>
@@ -110,7 +111,7 @@
 						<div class="field">
 						  <label class="label">Email</label>
 						  <div class="control has-icons-left has-icons-right">
-						    <input class="input is-danger" type="email" name="email" placeholder="example@mail.com" value="">
+						    <input class="input is-danger" type="email" name="email" placeholder="example@mail.com" value="" autocomplete="on" required>
 						    <span class="icon is-small is-left">
 						      <i class="fas fa-envelope"></i>
 						    </span>
@@ -124,7 +125,7 @@
                         <div class="field">
                             <label class="label">Password</label>
                             <p class="control has-icons-left">
-                                <input class="input" type="password" name="password" placeholder="********">
+                                <input class="input" type="password" name="password" placeholder="********" autocomplete="on" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
@@ -134,7 +135,7 @@
                         <div class="field">
                             <label class="label"> Repeat Password</label>
                             <p class="control has-icons-left">
-                                <input class="input" type="password" placeholder="********">
+                                <input class="input" type="password" placeholder="********" autocomplete="off" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
@@ -147,7 +148,7 @@
 						    <div class="select">
 						      <select>
 						        <option>Admin</option>
-						        <option>Basic User</option>
+						        <option>User</option>
 						      </select>
 						    </div>
 						  </div>
@@ -156,7 +157,7 @@
 						<div class="field">
 						  <div class="control">
 						    <label class="checkbox">
-						      <input type="checkbox">
+						      <input type="checkbox" required>
 						      I agree to the <a href="#">terms and conditions</a>
 						    </label>
 						  </div>
@@ -173,10 +174,10 @@
 
 						<div class="field is-grouped">
 						  <div class="control">
-						    <button class="button is-link">Submit</button>
+						    <button type="submit" class="button is-link">Submit</button>
 						  </div>
 						  <div class="control">
-						    <button class="button is-link is-light">Cancel</button>
+						    <button  type="button" class="button is-light cancel-signup">Cancel</button>
 						  </div>
 						</div> <!-- Signup-Modal form end -->
 					</form>
@@ -195,10 +196,11 @@
                         <h1 class=title is-1>Login</h1>
                     </div>
                     <form action="/login" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <div class="field">
                             <label class="label">Email</label>
                                 <div class="control has-icons-left has-icons-right">
-                                <input class="input is-danger" type="email" name="email" placeholder="example@mail.com" value="">
+                                <input id="login-first-field" class="input is-danger" type="email" name="email" placeholder="example@mail.com" value="" autocomplete="on" required>
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-envelope"></i>
                                     </span>
@@ -213,7 +215,7 @@
                         <div class="field">
                             <p class="control has-icons-left">
                             <label class="label">Password</label>
-                                <input class="input" type="password" name="password" placeholder="********">
+                                <input class="input" type="password" name="password" placeholder="********" autocomplete="on" required>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
@@ -232,6 +234,9 @@
 						<div class="field is-grouped">
 						  <div class="control">
 						    <button class="button is-link">Submit</button>
+						  </div>
+                          <div class="control">
+						    <button  type="button" class="button is-light cancel-login">Cancel</button>
 						  </div>
 						</div> <!-- Login-Modal form end -->
                     </form>

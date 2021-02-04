@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import login_user
 from flask_login.utils import login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from .validation_controller import SignupForm, LoginForm
 from sqlalchemy import exc
 from .models import User
 from . import db
@@ -24,17 +25,22 @@ def signup():
         return redirect('/')
     else:
         #create new user with form data
+        form = SignupForm()
         new_user = User(email=email, name=name, password=generate_password_hash(password=password, method='sha256', salt_length=8), role=role)
 
         #add new user to database
-        try:
-            db.session.add(new_user)
-            db.session.commit()
-            flash("Signup successfull! You can now login with your new acccount!")
-        except exc.SQLAlchemyError:
-            #Go to login / Log user in immediately
-            flash("An Error Occured.")
-            return redirect('/')
+        if form.validate_on_submit():
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+                flash("Signup successfull! You can now login with your new acccount!")
+            except exc.SQLAlchemyError:
+                #Go to login / Log user in immediately
+                flash("An Error Occured.")
+                return redirect('/')
+        else:
+            flash("Validation error on Signup. Check input!")
+            return redirect('index.html', form=form)
     
     return redirect('/')
 
@@ -44,11 +50,15 @@ def login():
     password = request.form.get('password')
     remember = request.form.get('remember')
 
+    form = LoginForm()
     user = User.query.filter_by(email=email).first()
-
-    if not user or not check_password_hash(user.password, password):
-        flash('Please check Login details.')
-        return redirect('/')
+    if form.validate_on_submit():
+        if not user or not check_password_hash(user.password, password):
+            flash('Please check Login details.')
+            return redirect('/', form=form)
+    else:
+        flash("Validation error on login. Check input!")
+        return redirect('/index.html', form=form)
 
     login_user(user, remember=remember)
     return redirect(url_for('main.dashboard'))
