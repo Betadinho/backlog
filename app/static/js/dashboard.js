@@ -1,3 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-
 });
+
+function toggle_task_details(coll) { 
+    coll.classList.toggle("active");
+    var content = coll.closest('.task-container').getElementsByClassName('expandable-content')[0]
+    if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+    } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+    }
+
+
+}
+    

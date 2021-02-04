@@ -13,7 +13,7 @@
             <div class="stage-content">
                 <ul class="task-list is-flex is-justify-content-center is-align-content-center is-flex-direction-column is-align-items-center is-justify-items-center">
                     <li class="task card mb-2">
-                        <div class="">
+                        <div class="task-container">
                             <header class="card-header">
                                 <p class="card-header-title">
                                     Task Title | Short Description
@@ -25,7 +25,7 @@
                                             </a>
                                         </span>
                                         <span class="icon has-text-warning icon is-medium">
-                                            <a id="task-details-button">
+                                            <a id="task-details-button" class="collapsible" onclick="toggle_task_details(this)">
                                                 <i class="fas fa-lg fa-angle-down" aria-hidden="true""></i>
                                             </a>
                                         </span>
@@ -34,9 +34,11 @@
                             <div class="card-content">
                                 <div class="content">
                                     <p class="task-details">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                                        Task Description and additional detailed information.
+                                        Write a short description saying roughly what is to be accomplished.
                                     </p>
+                                    <p>____________________</p>
+                                    <div class="expandable-content">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos quia ut error necessitatibus sint hic voluptate, vero voluptatibus rem.</div>
                                     <br>
                                     
                                 </div>
