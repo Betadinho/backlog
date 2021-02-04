@@ -18,3 +18,7 @@ ul {
     list-style-type: none !important;
     padding: 0 !important;
 }
+
+.flex-start {
+    margin-right: auto;
+}

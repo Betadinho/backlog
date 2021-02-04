@@ -18,11 +18,14 @@
                                 <p class="card-header-title">
                                     Task Title | Short Description
                                 </p>
-                                <button class="card-header-icon" aria-label="more options">
-                                    <span class="icon">
-                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                    </span>
-                                </button>
+                                    <div class="is-flex is-justify-content-flex-end">
+                                        <span class="icon has-text-info icon is-medium">
+                                            <i class="far fa-edit fa-lg"></i>
+                                        </span>
+                                        <span class="icon has-text-warning icon is-medium">
+                                            <i class="fas fa-lg fa-angle-down" aria-hidden="true""></i>
+                                        </span>
+                                    </div>
                             </header>
                             <div class="card-content">
                                 <div class="content">
@@ -31,16 +34,16 @@
                                         Task Description and additional detailed information.
                                     </p>
                                     <br>
-                                    <span class="is-flex is-flex-direction-row is-justify-content-flex-end ">
-                                        <time datetime="2016-1-1" class="has-text-weight-light is-size-7">Due date: 11:09 PM - 1 Jan 2016 </time>
-                                        <p class="has-text-weight-light is-size-7 pl-1"> | Assignee:</p>
-                                    </span>
+                                    
                                 </div>
                             </div>
-                            <footer class="card-footer">
-                                <a href="#" class="card-footer-item">Details</a>
-                                <a href="#" class="card-footer-item">Edit</a>
-                                <a href="#" class="card-footer-item">Delete</a>
+                            <footer class="card-footer is-flex is-justify-content-flex-end">
+                                <span class="is-flex flex-start">
+                                    <time datetime="2016-1-1" class="has-text-weight-light is-size-7">Due date: 11:09 PM - 1 Jan 2016 </time>
+                                </span>
+                                <span class="is-flex">
+                                    <p class="has-text-weight-light is-size-7 pl-3"> Assigned: Alpha</p>
+                                </span>
                             </footer>
                         </div>
                     </li>

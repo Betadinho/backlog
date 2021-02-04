@@ -7,7 +7,7 @@
 			{% block title %}{% endblock %} | Backlog
 		</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/darkmode/darkly.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 		{% endblock %}
 	</head>
 	<body>
@@ -251,7 +251,8 @@
 		</div>
 
 		{% block footer %}
-		{% endblock %}
+        {% endblock %}
+        <script src="https://kit.fontawesome.com/6405f16fa5.js" crossorigin="anonymous"></script>
 		<script src="{{ url_for('static', filename='js/script.js') }}" charset="utf-8"></script>
 	</body>
 </html>
