@@ -5,3 +5,16 @@
 .login-container, .signup-container {
 	height: auto;
 }
+
+.stage {
+    border-right: 2px dashed grey;
+    height: 100%;
+}
+.stage:first-child {
+    border-left: 2px dashed grey;
+}
+
+ul {
+    list-style-type: none !important;
+    padding: 0 !important;
+}

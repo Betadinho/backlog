@@ -5,4 +5,64 @@
 {% endblock %}
 
 {% block content %}
+<div class="board container mt-4">
+    <div class="project-title is-flex is-flex-direction-row is-justify-content-space-between"><h2>Project Title</h2><p>Further project information</p><p>Such as Owner</p></div>
+    <div class="columns">
+        <div class="column stage is-one-third">
+            <div class="stage-title"><h5>Stage 1</h5></div>
+            <div class="stage-content">
+                <ul class="task-list is-flex is-justify-content-center is-align-content-center is-flex-direction-column is-align-items-center is-justify-items-center">
+                    <li class="task card mb-2">
+                        <div class="">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Task Title | Short Description
+                                </p>
+                                <button class="card-header-icon" aria-label="more options">
+                                    <span class="icon">
+                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                </button>
+                            </header>
+                            <div class="card-content">
+                                <div class="content">
+                                    <p class="task-details">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                                        Task Description and additional detailed information.
+                                    </p>
+                                    <br>
+                                    <span class="is-flex is-flex-direction-row is-justify-content-flex-end ">
+                                        <time datetime="2016-1-1" class="has-text-weight-light is-size-7">Due date: 11:09 PM - 1 Jan 2016 </time>
+                                        <p class="has-text-weight-light is-size-7 pl-1"> | Assignee:</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="#" class="card-footer-item">Details</a>
+                                <a href="#" class="card-footer-item">Edit</a>
+                                <a href="#" class="card-footer-item">Delete</a>
+                            </footer>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="column stage is-one-third">
+            <div class="stage-title"><h5>Stage 2</h5></div>
+            <div class="stage-content">
+                <ul class="task-list is-flex is-justify-content-center is-align-content-center is-flex-direction-column is-align-items-center is-justify-items-center">
+                
+                </ul>
+            </div>
+        </div>
+        <div class="column stage is-one-third">
+            <div class="stage-title"><h5>Stage 3</h5></div>
+            <div class="stage-content">
+                <ul class="task-list is-flex is-justify-content-center is-align-content-center is-flex-direction-column is-align-items-center is-justify-items-center">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}
