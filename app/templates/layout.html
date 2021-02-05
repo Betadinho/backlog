@@ -34,25 +34,32 @@
                 <a class="navbar-item">
                     Documentation
                 </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        More
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            About
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Report an issue
-                        </a>
-		            </div>
-		      </div>
+                {% if current_user.is_authenticated %}  
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                Projects
+                            </a>
+                            
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item">
+                                    <i id="project-create-button" class="fas fa-plus fa-md">  Create New </i> 
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                Tasks
+                            </a>
+                            
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item">
+                                    <i id="task-create-button" class="fas fa-plus fa-md">  Create New </i> 
+                                </a>
+                            </div>
+                        </div>
+                {% endif %}
+                        
 		    </div>
 
 		    <div class="navbar-end">
@@ -177,7 +184,7 @@
 						    <button type="submit" class="button is-link">Submit</button>
 						  </div>
 						  <div class="control">
-						    <button  type="button" class="button is-light cancel-signup">Cancel</button>
+						    <button  type="button" class="button is-light cancel">Cancel</button>
 						  </div>
 						</div> <!-- Signup-Modal form end -->
 					</form>
@@ -185,7 +192,105 @@
 				</div>
 			</div>
 			<button class="modal-close is-large" aria-label="close"></button>
-		</div> <!-- Sign-up Modals END -->
+        </div> <!-- Sign-up Modals END -->
+        
+		<div class="modal" id="project-create-modal"> <!-- create project Modals Start -->
+			<div class="modal-background">
+			</div>
+			<div class="modal-content">
+				<div class="box">
+					<div class="has-text-centered"><h1 class=title is-1>Create new project</h1></div>
+
+					<form action="/create_project" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+						<div class="field">
+						  <label class="label">Project name</label>
+						  <div class="control">
+						    <input id="first-field" class="input is-primary" type="text" name="project_name" placeholder="Project Name" value="" autocomplete="off" required>
+						  </div>
+						</div>
+
+						<div class="field">
+						  <label class="label">Project descrition</label>
+						  <div class="control">
+						    <input class="input is-primary" type="text" name="email" placeholder="Description" value="" autocomplete="off" required>
+						  </div>
+						</div>
+
+                        <div class="field">
+                            <label class="label">Detailed information</label>
+                            <div class="control">
+                                <textarea class="textarea is-medium is-primary" type="text" name="task_details"
+                                    placeholder="Detailed description" value="" autocomplete="off" required></textarea>
+                            </div>
+                        </div>
+
+						<div class="field is-grouped">
+						  <div class="control">
+						    <button type="submit" class="button is-primary">Submit</button>
+						  </div>
+						  <div class="control">
+						    <button  type="button" class="button is-light cancel">Cancel</button>
+						  </div>
+						</div> <!-- create project-Modal form end -->
+					</form>
+
+				</div>
+			</div>
+			<button class="modal-close is-large" aria-label="close"></button>
+        </div> <!-- create project Modals END -->
+        
+		<div class="modal" id="task-create-modal">
+			<div class="modal-background">
+			</div>
+			<div class="modal-content">
+				<div class="box signup-container">
+					<div class="has-text-centered"><h1 class=title is-1>Create new task</h1></div>
+
+					<form action="/create_task" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+						<div class="field">
+						  <label class="label">Task name</label>
+						  <div class="control">
+						    <input id="signup-first-field" class="input is-primary" type="text" name="name" placeholder="Username" value="" autocomplete="off" required>
+						  </div>
+						</div>
+
+						<div class="field">
+						  <label class="label">Short task description</label>
+						  <div class="control">
+						    <input class="input is-primary" type="text" name="task_description" placeholder="Short description" value="" autocomplete="off" required>
+						  </div>
+						</div>
+
+						<div class="field">
+						  <label class="label">Detailed task information</label>
+						  <div class="control">
+						    <textarea class="textarea is-medium is-primary" type="text" name="task_details" placeholder="Detailed description" value="" autocomplete="off"></textarea>
+						  </div>
+						</div>
+
+                        <div class="field">
+                            <label class="label">Assinged to</label>
+                            <div class="control">
+                                <input class="input is-primary" type="text" name="task_assingee" placeholder="Assing people to this task" value="" autocomplete="off" required/>
+                            </div>
+                        </div>
+
+						<div class="field is-grouped">
+						  <div class="control">
+						    <button type="submit" class="button is-primary">Submit</button>
+						  </div>
+						  <div class="control">
+						    <button  type="button" class="button is-light cancel">Cancel</button>
+						  </div>
+						</div> <!-- create task-Modal form end -->
+					</form>
+
+				</div>
+			</div>
+			<button class="modal-close is-large" aria-label="close"></button>
+		</div> <!-- create task Modals END -->
 
 		<div class="modal" id="login-modal">
 			<div class="modal-background">
@@ -236,7 +341,7 @@
 						    <button class="button is-link">Submit</button>
 						  </div>
                           <div class="control">
-						    <button  type="button" class="button is-light cancel-login">Cancel</button>
+						    <button  type="button" class="button is-light cancel">Cancel</button>
 						  </div>
 						</div> <!-- Login-Modal form end -->
                     </form>
