@@ -1,4 +1,5 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable indent */
 "use strict"
 function modalToggle(modal, html) {
 	html[0].classList.add("is-clipped")
@@ -43,25 +44,35 @@ document.addEventListener("DOMContentLoaded", () => {
 	const signup_button = document.getElementById("signup-button")
 	const signup_modal = document.getElementById("signup-modal")
     
-	const project_create_button = document.getElementById("project-create-button")
-	const project_modal = document.getElementById("project-create-modal")
-
-	const task_create_button = document.getElementById("task-create-button")
-	const task_modal = document.getElementById("task-create-modal")
-
 	const login_button = document.getElementById("login-button")
 	const login_modal = document.getElementById("login-modal")
 
+	const project_create_button = document.getElementById("project-create-button")
+	const project_create_modal = document.getElementById("project-create-modal")
+
+	const task_create_button = document.getElementById("task-create-button")
+	const task_create_modal = document.getElementById("task-create-modal")
+
+	const task_edit_button = document.getElementById("task-edit-button")
+	const task_edit_modal = document.getElementById("task-edit-modal")
+
+	const project_edit_button = document.getElementById("project-edit-button")
+	const project_edit_modal = document.getElementById("project-edit-modal")
+
 	const modal_group = [
-		{button:login_button, modal:login_modal},
-		{button:signup_button, modal:signup_modal},
-		{button:project_create_button, modal:project_modal},
-		{button:task_create_button, modal:task_modal}
+		{name:"login", button:login_button, modal:login_modal},
+		{name:"signup", button:signup_button, modal:signup_modal},
+		{name:"createproject", button:project_create_button, modal:project_create_modal},
+		{name:"createtask", button:task_create_button, modal:task_create_modal},
+		{name:"editproject", button:project_edit_button, modal:project_edit_modal},
+		{name:"edittask", button:task_edit_button, modal:task_edit_modal}
 	]
 
 	for(const e of modal_group) {
 		(function() {
-			e.button.addEventListener("click", () => { modalToggle(e.modal, html) })
+            if(e.button) {
+                e.button.addEventListener("click", () => { modalToggle(e.modal, html) })
+            }
 		}())
 	}
 })

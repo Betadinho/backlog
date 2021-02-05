@@ -33,14 +33,15 @@ def signup():
             try:
                 db.session.add(new_user)
                 db.session.commit()
-                flash("Signup successfull! You can now login with your new acccount!")
+                flash("Signup successfull! You can now login with your new acccount!", "info")
+                return redirect('/')
             except exc.SQLAlchemyError:
                 #Go to login / Log user in immediately
                 flash("An Error Occured.")
                 return redirect('/')
         else:
             flash("Validation error on Signup. Check input!")
-            return redirect('index.html', form=form)
+            return redirect('/')
     
     return redirect('/')
 
@@ -55,10 +56,10 @@ def login():
     if form.validate_on_submit():
         if not user or not check_password_hash(user.password, password):
             flash('Please check Login details.')
-            return redirect('/', form=form)
+            return redirect('/')
     else:
         flash("Validation error on login. Check input!")
-        return redirect('/index.html', form=form)
+        return redirect('/')
 
     login_user(user, remember=remember)
     return redirect(url_for('main.dashboard'))

@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 from flask_login.utils import login_required
+from flask_login import current_user
 from . import db
 
 main = Blueprint('main', __name__)
@@ -15,6 +16,8 @@ Components:
 """
 @main.route('/')
 def index():
+    if(current_user.is_authenticated):
+        return redirect('/dashboard')
     return render_template('index.html')
 
 @main.route('/profile')

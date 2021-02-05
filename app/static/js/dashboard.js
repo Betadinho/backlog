@@ -10,7 +10,4 @@ function toggle_task_details(coll) {
 	}
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-})
-
     

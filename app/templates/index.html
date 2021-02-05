@@ -73,5 +73,62 @@
         </div>
     </div>
 </div>
-     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<div class="modal" id="task-edit-modal">
+    <div class="modal-background">
+    </div>
+    <div class="modal-content">
+        <div class="box signup-container">
+            <div class="has-text-centered">
+                <h1 class=title is-1>Create new task</h1>
+            </div>
+
+            <form action="/edit_task" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <div class="field">
+                    <label class="label">Task name</label>
+                    <div class="control">
+                        <input class="input is-primary first-field" type="text" name="task_name"
+                            placeholder="Task name" value="" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Short task description</label>
+                    <div class="control">
+                        <input class="input is-primary" type="text" name="task_description"
+                            placeholder="Short description" value="" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Detailed task information</label>
+                    <div class="control">
+                        <textarea class="textarea is-medium is-primary" type="text" name="task_details"
+                            placeholder="Detailed description" value="" autocomplete="off"></textarea>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Assinged to</label>
+                    <div class="control">
+                        <input class="input is-primary" type="text" name="task_assingee"
+                            placeholder="Assing people to this task" value="" autocomplete="off" required />
+                    </div>
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button type="button" class="button is-light cancel">Cancel</button>
+                    </div>
+                </div> <!-- create task-Modal form end -->
+            </form>
+
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+</div> <!-- edit task Modals END -->
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}
