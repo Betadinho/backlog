@@ -29,7 +29,9 @@ def profile():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-	return render_template('dashboard/dashboard.html')
+	#return render_template('dashboard/dashboard.html')
+    projects = Project.query.all()
+    return render_template('dashboard/testdashboard.html', projects=projects)
 
 @main.route('/create_project', methods=['POST'])
 @login_required
@@ -44,10 +46,18 @@ def create_project():
     db.session.commit()
     return redirect('/')
 
-@main.route('/create_task')
+@main.route('/create_task', methods=['POST'])
 @login_required
 def create_task():
-    return
+    name = request.form.get('task_name')
+    description = request.form.get('task_description')
+    details = request.form.get('task_details')
+    assignee = request.form.get('task_assignee')
+    owner = current_user
+    task = Task(name=name, description=description, details=details, assignee=assignee, owner=owner)
+    db.session.add(task)
+    db.session.commit()
+    return redirect('/')
 
 @main.route('/edit_project')
 @login_required

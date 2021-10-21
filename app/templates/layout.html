@@ -45,6 +45,17 @@
                                 <a class="navbar-item">
                                     <i id="project-create-button" class="fas fa-plus fa-md">  Create New </i> 
                                 </a>
+                                
+                                {% if projects %}
+                                        {% for element in projects %}
+                                        <a class="navbar-item">
+                                            {{ element.name }}
+                                        </a>
+                                        {% endfor %}
+                                {% endif %}
+                                
+                                
+                                
                             </div>
                         </div>
                         
