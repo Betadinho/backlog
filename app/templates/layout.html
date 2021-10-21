@@ -7,6 +7,7 @@
 			{% block title %}{% endblock %} | Backlog
 		</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/darkmode/darkly.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='fa/css/all.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <link rel="icon"  href="{{ url_for('static', filename='image/favicon.ico') }}">
 		{% endblock %}
@@ -28,7 +29,7 @@
 
 		  <div id="navbarBasicExample" class="navbar-menu">
 		    <div class="navbar-start">
-                <a class="navbar-item">
+                <a class="navbar-item" href="/">
                     Home
                 </a>
 
@@ -38,17 +39,18 @@
                 {% if current_user.is_authenticated %}  
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="navbar-link">
-                                Projects
+                                My Projects
                             </a>
                             
                             <div class="navbar-dropdown">
-                                <a class="navbar-item">
-                                    <i id="project-create-button" class="fas fa-plus fa-md">  Create New </i> 
+                                <a class="navbar-item"  id="project-create-button">
+                                    <i class="fas fa-plus"></i> 
+                                    <p>New Project</p>
                                 </a>
                                 
                                 {% if projects %}
                                         {% for element in projects %}
-                                        <a class="navbar-item">
+                                        <a class="navbar-item" href="{{ url_for('main.view_project', projectname=element.name) }}">
                                             {{ element.name }}
                                         </a>
                                         {% endfor %}
@@ -65,8 +67,9 @@
                             </a>
                             
                             <div class="navbar-dropdown">
-                                <a class="navbar-item">
-                                    <i id="task-create-button" class="fas fa-plus fa-md">  Create New </i> 
+                                <a class="navbar-item" id="task-create-button">
+                                    <i class="fas fa-plus"></i> 
+                                    <p>New Task</p>
                                 </a>
                             </div>
                         </div>
@@ -95,12 +98,12 @@
 		  </div>
 		</nav>
 
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="notification is-danger has-text-centered">
-                {{ messages[0] }}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="notification has-text-centered {{ category }}">
+                {{ message }}
             </div>
-        {% endif %}
+        {% endfor %}
         {% endwith %}
 
 		<!-- Signup Modal START -->
@@ -206,7 +209,7 @@
 			<button class="modal-close is-large" aria-label="close"></button>
         </div> <!-- Sign-up Modals END -->
         
-		<div class="modal" id="project-create-modal"> <!-- create project Modals Start -->
+		<div class="modal" id="project-create-modal"> <!-- create project Modal Start -->
 			<div class="modal-background">
 			</div>
 			<div class="modal-content">
@@ -250,7 +253,7 @@
 				</div>
 			</div>
 			<button class="modal-close is-large" aria-label="close"></button>
-        </div> <!-- create project Modals END -->
+        </div> <!-- create project Modal END -->
         
 		<div class="modal" id="task-create-modal">
 			<div class="modal-background">
@@ -260,8 +263,11 @@
 					<div class="has-text-centered"><h1 class=title is-1>Create new task</h1></div>
 
 					<form action="/create_task" method="POST">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-						<div class="field">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        {% if project %}
+                            <input type="hidden" name="stage_id" value="{{ project.stages[0]['id']}}"/>
+						{% endif %}
+                        <div class="field">
 						  <label class="label">Task name</label>
 						  <div class="control">
 						    <input class="input is-primary first-field" type="text" name="task_name" placeholder="Task name" value="" autocomplete="off" required>
@@ -310,14 +316,14 @@
 			<div class="modal-content">
                 <div class="box login-container">
                     <div class="has-text-centered">
-                        <h1 class=title is-1>Login</h1>
+                        <h1 class="title is-1">Login</h1>
                     </div>
                     <form action="/login" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <div class="field">
-                            <label class="label">Email</label>
+                            <label class="label">Email / Username</label>
                                 <div class="control has-icons-left has-icons-right">
-                                <input class="input is-danger first-field" type="email" name="email" placeholder="example@mail.com" value="" autocomplete="on" required>
+                                <input class="input is-danger first-field" type="email" name="email" placeholder="example@mail.com / King-Alpha" value="" autocomplete="on" required>
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-envelope"></i>
                                     </span>
@@ -325,7 +331,7 @@
                                         <i class="fas fa-exclamation-triangle"></i>
                                     </span>
                                 </div>
-                                <!-- CToggle valid / invalid base on validation -->
+                                <!-- Toggle valid / invalid base on validation -->
                             <p class="help is-danger">This email is invalid</p>
                         </div>
 
@@ -369,7 +375,10 @@
 
 		{% block footer %}
         {% endblock %}
-        <script src="https://kit.fontawesome.com/6405f16fa5.js" crossorigin="anonymous"></script>
+        <!--
+            <script src="https://kit.fontawesome.com/6405f16fa5.js" crossorigin="anonymous"></script> 
+            -->
+        <script src="{{ url_for('static', filename='fa/js/all.min.js') }}" charset="utf-8"></script>
 		<script src="{{ url_for('static', filename='js/script.js') }}" charset="utf-8"></script>
 	</body>
 </html>

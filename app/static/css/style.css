@@ -7,16 +7,17 @@
 }
 
 .stage {
-    border-right: 2px dashed grey;
+    border-right: 2px solid #d81b60;
     height: 100%;
 }
 .stage:first-child {
-    border-left: 2px dashed grey;
+    border-left: 2px solid #d81b60;
 }
 
 ul {
     list-style-type: none !important;
     padding: 0 !important;
+    margin: 0 !important;
 }
 
 .flex-start {
@@ -41,4 +42,18 @@ ul {
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.2s ease-out;
+}
+
+.error {
+    background-color: red;
+}
+
+.info{
+    background-color: yellow;
+
+}
+
+.success{
+    background-color: green;
+
 }

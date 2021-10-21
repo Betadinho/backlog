@@ -2,7 +2,7 @@
 /*! bulmaswatch v0.8.1 | MIT License */
 /*! bulma.io v0.9.1 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
-@import url("https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=swap");
+/*@import url("https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=swap"); */
 @keyframes spinAround {
   from {
     transform: rotate(0deg);
@@ -4353,9 +4353,10 @@ button.dropdown-item.is-active {
 
 .navbar {
   background-color: #d81b60;
-  min-height: 4rem;
+  min-height: 2.5rem;
   position: relative;
   z-index: 30;
+  height: 30px;
 }
 .navbar.is-white {
   background-color: white;
@@ -4920,7 +4921,7 @@ button.dropdown-item.is-active {
 .navbar > .container {
   align-items: stretch;
   display: flex;
-  min-height: 4rem;
+  min-height: 2rem;
   width: 100%;
 }
 .navbar.has-shadow {
@@ -4956,7 +4957,7 @@ body.has-navbar-fixed-bottom {
   align-items: stretch;
   display: flex;
   flex-shrink: 0;
-  min-height: 4rem;
+  min-height: 2rem;
 }
 
 .navbar-brand a.navbar-item:focus, .navbar-brand a.navbar-item:hover {
@@ -5060,7 +5061,7 @@ a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover, a.navbar-i
 }
 .navbar-item.is-tab {
   border-bottom: 1px solid transparent;
-  min-height: 4rem;
+  min-height: 2rem;
   padding-bottom: calc(0.5rem - 1px);
 }
 .navbar-item.is-tab:focus, .navbar-item.is-tab:hover {
@@ -5172,7 +5173,7 @@ body.has-navbar-fixed-bottom-touch {
   }
 
   .navbar {
-    min-height: 4rem;
+    min-height: 2.5rem;
   }
   .navbar.is-spaced {
     padding: 1rem 2rem;
@@ -10366,6 +10367,7 @@ a {
 .hero .navbar,
 body > .navbar {
   border-radius: 0;
+  /* height: 50px; */
 }
 
 .pagination-link,

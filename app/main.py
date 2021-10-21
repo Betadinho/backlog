@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, render_template, redirect, request, session
 from flask_login.utils import login_required
 from flask_login import current_user
 from . import db
-from .models import Task, Project
+from .models import Task, Project, Stage
 
 main = Blueprint('main', __name__)
 
@@ -33,15 +33,26 @@ def dashboard():
     projects = Project.query.all()
     return render_template('dashboard/testdashboard.html', projects=projects)
 
+@main.route('/project/', methods=['GET'])
+@login_required
+def view_project():
+    projectname = request.args.get('projectname')
+    
+    projects = Project.query.all()
+    project = Project.query.filter_by(name=projectname).first_or_404()
+    return render_template('project/project.html', project=project, projects=projects)
+
 @main.route('/create_project', methods=['POST'])
 @login_required
 def create_project():
     name = request.form.get('project_name')
-    owner = "Alpha"
-    description = request.form.get('project_description')
     details = request.form.get('project_details')
+    description = request.form.get('project_description')
+    owner_id = current_user.get_id()
 
-    project = Project(name=name, owner=owner, description=description, details=details) 
+    project = Project(name=name, owner_id=owner_id, description=description, details=details)
+    project.stages = [Stage(name="All Tasks")]
+
     db.session.add(project)
     db.session.commit()
     return redirect('/')
@@ -52,19 +63,23 @@ def create_task():
     name = request.form.get('task_name')
     description = request.form.get('task_description')
     details = request.form.get('task_details')
-    assignee = request.form.get('task_assignee')
-    owner = current_user
-    task = Task(name=name, description=description, details=details, assignee=assignee, owner=owner)
-    db.session.add(task)
-    db.session.commit()
-    return redirect('/')
+    stage_id = request.form.get('stage_id')
+    owner = current_user.get_id()
+
+    if stage_id is not None:
+        task = Task(stage_id=stage_id, name=name, description=description, details=details, owner=owner)
+
+        db.session.add(task)
+        db.session.commit()
+    
+    return redirect(request.referrer)
 
 @main.route('/edit_project')
 @login_required
 def edit_project():
-    return
+    return redirect('/')
 
 @main.route('/edit_task')
 @login_required
 def edit_task():
-    return
+    return redirect('/')

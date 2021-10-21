@@ -55,5 +55,3 @@ flask run
 
 Alternatively you can use python -m flask:
 python -m flask run
-
-{%  %}
