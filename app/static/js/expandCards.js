@@ -2,7 +2,7 @@
 // eslint-disable-next-line no-unused-vars
 function toggle_task_details(coll) { 
 	coll.classList.toggle("active")
-	var content = coll.closest(".task-container").getElementsByClassName("expandable-content")[0]
+	var content = coll.closest(".expandable-container").getElementsByClassName("expandable-content")[0]
 	if (content.style.maxHeight) {
 		content.style.maxHeight = null
 	} else {

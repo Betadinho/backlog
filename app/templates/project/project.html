@@ -27,7 +27,7 @@
                 <ul class="task-list is-flex is-justify-content-center is-align-content-center is-flex-direction-column is-align-items-center is-justify-items-center">
                     {% for t in s.tasks %}
                     <li class="task card mb-2">
-                        <div class="task-container">
+                        <div class="expandable-container">
                             <header class="card-header">
                                 <p class="card-header-title">
                                     {{ t.name }}
@@ -183,5 +183,5 @@
     </div>
     <button class="modal-close is-large" aria-label="close"></button>
 </div> <!-- edit Prject Modals END -->
-<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/expandCards.js') }}"></script>
 {% endblock %}

@@ -31,7 +31,7 @@ def profile():
 def dashboard():
 	#return render_template('dashboard/dashboard.html')
     projects = Project.query.all()
-    return render_template('dashboard/testdashboard.html', projects=projects)
+    return render_template('dashboard/dashboard.html', projects=projects)
 
 @main.route('/project/', methods=['GET'])
 @login_required
