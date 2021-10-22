@@ -5,3 +5,55 @@
 .login-container, .signup-container {
 	height: auto;
 }
+
+.stage {
+    border-right: 2px solid #d81b60;
+    height: 100%;
+}
+.stage:first-child {
+    border-left: 2px solid #d81b60;
+}
+
+ul {
+    list-style-type: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.flex-start {
+    margin-right: auto;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active {
+    transform: rotate(180deg) scaleX(-1);
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.expandable-content {
+  padding: 0 18px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s ease-out;
+}
+
+.error {
+    background-color: red;
+}
+
+.info{
+    background-color: yellow;
+
+}
+
+.success{
+    background-color: green;
+
+}

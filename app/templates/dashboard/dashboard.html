@@ -1,0 +1,175 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+<div class="board container mt-4">
+    <div class="project-title is-flex is-flex-direction-row is-justify-content-space-between">
+        <h2>My Projects</h2>
+    </div>
+    <div class="container">
+    
+        {% for p in projects %}
+            <div class=" card mb-2 expandable-container">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        <a href="{{ url_for('main.view_project', projectname=p.name) }}">
+                            {{ p.name }} 
+                        </a>
+                        
+                    </p>
+                    <div class="is-flex is-justify-content-flex-end">
+                        <span class="icon has-text-info icon is-medium">
+                            <a id="project-edit-button">
+                                <i class="far fa-edit fa-lg"></i>
+                            </a>
+                        </span>
+                        <span class="icon has-text-warning icon is-medium">
+                            <a id="project-details-button" class="collapsible"
+                                onclick="toggle_task_details(this)">
+                                <i class="fas fa-lg fa-angle-down" aria-hidden="true"></i>
+                            </a>
+                        </span>
+                    </div>
+                </header>
+                <div class=" card-content">
+                                    <div class="content">
+                                        <p class="task-details">
+                                            {{p.description}}
+                                        </p>
+                                        <p>____________________</p>
+                                        <div class="expandable-content">
+                                            <p>
+                                                {{p.details}}
+                                            </p>
+                                        </div>
+                                        <br>
+
+                                    </div>
+                    </div>
+                    <footer class="card-footer is-flex is-justify-content-flex-end">
+                        <span class="is-flex flex-start">
+                            <time datetime="2016-1-1" class="has-text-weight-light is-size-7">Created:
+                                11:09 PM - 1 Jan 2016 </time>
+                        </span>
+                        <span class="is-flex">
+                            <p class="has-text-weight-light is-size-7 pl-3"> Owner: p.owner</p>
+                        </span>
+                    </footer>
+            </div>  
+        {% endfor %}
+
+    </div>
+</div>
+
+
+<div class="modal" id="task-edit-modal">
+    <div class="modal-background">
+    </div>
+    <div class="modal-content">
+        <div class="box signup-container">
+            <div class="has-text-centered">
+                <h1 class=title is-1>Edit task</h1>
+            </div>
+
+            <form action="/edit_task" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <div class="field">
+                    <label class="label">Task name</label>
+                    <div class="control">
+                        <input class="input is-primary first-field" type="text" name="task_name" placeholder="Task name"
+                            value="" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Short task description</label>
+                    <div class="control">
+                        <input class="input is-primary" type="text" name="task_description"
+                            placeholder="Short description" value="" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Detailed task information</label>
+                    <div class="control">
+                        <textarea class="textarea is-medium is-primary" type="text" name="task_details"
+                            placeholder="Detailed description" value="" autocomplete="off"></textarea>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Assinged to</label>
+                    <div class="control">
+                        <input class="input is-primary" type="text" name="task_assingee"
+                            placeholder="Assing people to this task" value="" autocomplete="off" required />
+                    </div>
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button type="button" class="button is-light cancel">Cancel</button>
+                    </div>
+                </div> <!-- "create task" Modal form end -->
+            </form>
+
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+</div> <!-- "edit project" Modals END -->
+<div class="modal" id="project-edit-modal">
+    <div class="modal-background">
+    </div>
+    <div class="modal-content">
+        <div class="box signup-container">
+            <div class="has-text-centered">
+                <h1 class=title is-1>Edit project</h1>
+            </div>
+
+            <form action="/edit_task" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <div class="field">
+                    <label class="label">Project name</label>
+                    <div class="control">
+                        <input class="input is-primary first-field" type="text" name="project_name"
+                            placeholder="Project name" value="" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Short project description</label>
+                    <div class="control">
+                        <input class="input is-primary" type="text" name="project_description"
+                            placeholder="Short description" value="" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Detailed project information</label>
+                    <div class="control">
+                        <textarea class="textarea is-medium is-primary" type="text" name="project_details"
+                            placeholder="Detailed project description" value="" autocomplete="off"></textarea>
+                    </div>
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button type="button" class="button is-light cancel">Cancel</button>
+                    </div>
+                </div> <!-- "edit project" modal form end -->
+            </form>
+
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+</div> <!-- edit task Modals END -->
+<script src="{{ url_for('static', filename='js/expandCards.js') }}"></script>
+{% endblock %}

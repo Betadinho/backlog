@@ -1,4 +1,9 @@
-venv/
+backlog_venv/
 .flaskenv
 TODO.txt
 TODO.md
+package.json
+package-lock.json
+.eslintrc.yml
+node_modules/
+db.sqlite

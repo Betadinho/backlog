@@ -1,4 +1,7 @@
-# Flask creates a rule for the static endpoint a initialization
+from os import path
+from werkzeug.security import generate_password_hash
+
+# Flask creates a rule for the static endpoint at initialization
 # this means that setting static_url_path and static_folder
 # after initilzation do not change the result of url_for('static', filename=...)
 

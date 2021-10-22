@@ -1,5 +1,5 @@
 from warnings import catch_warnings
-from flask import Blueprint, render_template, url_for, redirect, request, flash
+from flask import Blueprint, url_for, redirect, request, flash
 from flask_login import login_user
 from flask_login.utils import login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,7 +21,7 @@ def signup():
     user = User.query.filter_by(email=email).first()
 
     if user:  # Redirect if userr does exist
-        flash("Email already exists! Login if it's you!")
+        flash("Email already exists! Login if it's you!", 'error')
         return redirect('/')
     else:
         #create new user with form data
@@ -33,16 +33,16 @@ def signup():
             try:
                 db.session.add(new_user)
                 db.session.commit()
-                flash("Signup successfull! You can now login with your new acccount!")
+                flash("Signup successfull! You can now login with your new acccount!", 'success')
+                return redirect('/')
             except exc.SQLAlchemyError:
                 #Go to login / Log user in immediately
-                flash("An Error Occured.")
+                flash("An Error Occured.", 'error')
                 return redirect('/')
         else:
-            flash("Validation error on Signup. Check input!")
-            return redirect('index.html', form=form)
-    
-    return redirect('/')
+            flash("Vallidation error on Signup. Check input!", 'error')
+            return redirect('/')
+
 
 @auth.route('/login', methods=['POST'])
 def login():
@@ -54,11 +54,11 @@ def login():
     user = User.query.filter_by(email=email).first()
     if form.validate_on_submit():
         if not user or not check_password_hash(user.password, password):
-            flash('Please check Login details.')
-            return redirect('/', form=form)
+            flash('Login failed. Please check login creadentials!', "error")
+            return redirect('/')
     else:
-        flash("Validation error on login. Check input!")
-        return redirect('/index.html', form=form)
+        flash("Validation error on login. Check input!", "error")
+        return redirect('/')
 
     login_user(user, remember=remember)
     return redirect(url_for('main.dashboard'))

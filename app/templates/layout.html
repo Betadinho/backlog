@@ -7,7 +7,9 @@
 			{% block title %}{% endblock %} | Backlog
 		</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/darkmode/darkly.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='fa/css/all.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="icon"  href="{{ url_for('static', filename='image/favicon.ico') }}">
 		{% endblock %}
 	</head>
 	<body>
@@ -27,32 +29,52 @@
 
 		  <div id="navbarBasicExample" class="navbar-menu">
 		    <div class="navbar-start">
-                <a class="navbar-item">
+                <a class="navbar-item" href="/">
                     Home
                 </a>
 
                 <a class="navbar-item">
                     Documentation
                 </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        More
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            About
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Report an issue
-                        </a>
-		            </div>
-		      </div>
+                {% if current_user.is_authenticated %}  
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                My Projects
+                            </a>
+                            
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item"  id="project-create-button">
+                                    <i class="fas fa-plus"></i> 
+                                    <p>New Project</p>
+                                </a>
+                                
+                                {% if projects %}
+                                        {% for element in projects %}
+                                        <a class="navbar-item" href="{{ url_for('main.view_project', projectname=element.name) }}">
+                                            {{ element.name }}
+                                        </a>
+                                        {% endfor %}
+                                {% endif %}
+                                
+                                
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                Tasks
+                            </a>
+                            
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item" id="task-create-button">
+                                    <i class="fas fa-plus"></i> 
+                                    <p>New Task</p>
+                                </a>
+                            </div>
+                        </div>
+                {% endif %}
+                        
 		    </div>
 
 		    <div class="navbar-end">
@@ -76,12 +98,12 @@
 		  </div>
 		</nav>
 
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="notification is-danger has-text-centered">
-                {{ messages[0] }}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="notification has-text-centered {{ category }}">
+                {{ message }}
             </div>
-        {% endif %}
+        {% endfor %}
         {% endwith %}
 
 		<!-- Signup Modal START -->
@@ -177,7 +199,7 @@
 						    <button type="submit" class="button is-link">Submit</button>
 						  </div>
 						  <div class="control">
-						    <button  type="button" class="button is-light cancel-signup">Cancel</button>
+						    <button  type="button" class="button is-light cancel">Cancel</button>
 						  </div>
 						</div> <!-- Signup-Modal form end -->
 					</form>
@@ -185,7 +207,108 @@
 				</div>
 			</div>
 			<button class="modal-close is-large" aria-label="close"></button>
-		</div> <!-- Sign-up Modals END -->
+        </div> <!-- Sign-up Modals END -->
+        
+		<div class="modal" id="project-create-modal"> <!-- create project Modal Start -->
+			<div class="modal-background">
+			</div>
+			<div class="modal-content">
+				<div class="box">
+					<div class="has-text-centered"><h1 class=title is-1>Create new project</h1></div>
+
+					<form action="/create_project" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+						<div class="field">
+						  <label class="label">Project name</label>
+						  <div class="control">
+						    <input id="first-field" class="input is-primary" type="text" name="project_name" placeholder="Project Name" value="" autocomplete="off" required>
+						  </div>
+						</div>
+
+						<div class="field">
+						  <label class="label">Project descrition</label>
+						  <div class="control">
+						    <input class="input is-primary" type="text" name="project_description" placeholder="Description" value="" autocomplete="off" required>
+						  </div>
+						</div>
+
+                        <div class="field">
+                            <label class="label">Detailed information</label>
+                            <div class="control">
+                                <textarea class="textarea is-medium is-primary" type="text" name="project_details"
+                                    placeholder="Detailed description" value="" autocomplete="off"></textarea>
+                            </div>
+                        </div>
+
+						<div class="field is-grouped">
+						  <div class="control">
+						    <button type="submit" class="button is-primary">Submit</button>
+						  </div>
+						  <div class="control">
+						    <button  type="button" class="button is-light cancel">Cancel</button>
+						  </div>
+						</div> <!-- create project-Modal form end -->
+					</form>
+
+				</div>
+			</div>
+			<button class="modal-close is-large" aria-label="close"></button>
+        </div> <!-- create project Modal END -->
+        
+		<div class="modal" id="task-create-modal">
+			<div class="modal-background">
+			</div>
+			<div class="modal-content">
+				<div class="box signup-container">
+					<div class="has-text-centered"><h1 class=title is-1>Create new task</h1></div>
+
+					<form action="/create_task" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        {% if project %}
+                            <input type="hidden" name="stage_id" value="{{ project.stages[0]['id']}}"/>
+						{% endif %}
+                        <div class="field">
+						  <label class="label">Task name</label>
+						  <div class="control">
+						    <input class="input is-primary first-field" type="text" name="task_name" placeholder="Task name" value="" autocomplete="off" required>
+						  </div>
+						</div>
+
+						<div class="field">
+						  <label class="label">Short task description</label>
+						  <div class="control">
+						    <input class="input is-primary" type="text" name="task_description" placeholder="Short description" value="" autocomplete="off" required>
+						  </div>
+						</div>
+
+						<div class="field">
+						  <label class="label">Detailed task information</label>
+						  <div class="control">
+						    <textarea class="textarea is-medium is-primary" type="text" name="task_details" placeholder="Detailed description" value="" autocomplete="off"></textarea>
+						  </div>
+						</div>
+
+                        <div class="field">
+                            <label class="label">Assinged to</label>
+                            <div class="control">
+                                <input class="input is-primary" type="text" name="task_assingee" placeholder="Assing people to this task" value="" autocomplete="off" required/>
+                            </div>
+                        </div>
+
+						<div class="field is-grouped">
+						  <div class="control">
+						    <button type="submit" class="button is-primary">Submit</button>
+						  </div>
+						  <div class="control">
+						    <button  type="button" class="button is-light cancel">Cancel</button>
+						  </div>
+						</div> <!-- create task-Modal form end -->
+					</form>
+
+				</div>
+			</div>
+			<button class="modal-close is-large" aria-label="close"></button>
+		</div> <!-- create task Modals END -->
 
 		<div class="modal" id="login-modal">
 			<div class="modal-background">
@@ -193,14 +316,14 @@
 			<div class="modal-content">
                 <div class="box login-container">
                     <div class="has-text-centered">
-                        <h1 class=title is-1>Login</h1>
+                        <h1 class="title is-1">Login</h1>
                     </div>
                     <form action="/login" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <div class="field">
-                            <label class="label">Email</label>
+                            <label class="label">Email / Username</label>
                                 <div class="control has-icons-left has-icons-right">
-                                <input id="login-first-field" class="input is-danger" type="email" name="email" placeholder="example@mail.com" value="" autocomplete="on" required>
+                                <input class="input is-danger first-field" type="email" name="email" placeholder="example@mail.com / King-Alpha" value="" autocomplete="on" required>
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-envelope"></i>
                                     </span>
@@ -208,7 +331,7 @@
                                         <i class="fas fa-exclamation-triangle"></i>
                                     </span>
                                 </div>
-                                <!-- CToggle valid / invalid base on validation -->
+                                <!-- Toggle valid / invalid base on validation -->
                             <p class="help is-danger">This email is invalid</p>
                         </div>
 
@@ -236,7 +359,7 @@
 						    <button class="button is-link">Submit</button>
 						  </div>
                           <div class="control">
-						    <button  type="button" class="button is-light cancel-login">Cancel</button>
+						    <button  type="button" class="button is-light cancel">Cancel</button>
 						  </div>
 						</div> <!-- Login-Modal form end -->
                     </form>
@@ -251,7 +374,11 @@
 		</div>
 
 		{% block footer %}
-		{% endblock %}
+        {% endblock %}
+        <!--
+            <script src="https://kit.fontawesome.com/6405f16fa5.js" crossorigin="anonymous"></script> 
+            -->
+        <script src="{{ url_for('static', filename='fa/js/all.min.js') }}" charset="utf-8"></script>
 		<script src="{{ url_for('static', filename='js/script.js') }}" charset="utf-8"></script>
 	</body>
 </html>
