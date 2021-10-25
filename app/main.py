@@ -3,6 +3,7 @@ from flask_login.utils import login_required
 from flask_login import current_user
 from . import db
 from .models import Task, Project, Stage
+from sqlalchemy import exc
 
 main = Blueprint('main', __name__)
 
@@ -82,4 +83,13 @@ def edit_project():
 @main.route('/edit_task')
 @login_required
 def edit_task():
+    return redirect('/')
+
+@main.route('/delete_task', methods=['DELETE'])
+@login_required
+def delete_task():
+    task_id = request.args['del_task_id']
+    task = db.session.query(Task).filter_by(id=task_id)
+    db.session.delete(task)
+    db.session.commit()
     return redirect('/')

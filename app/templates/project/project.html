@@ -29,13 +29,23 @@
                     <li class="task card mb-2">
                         <div class="expandable-container">
                             <header class="card-header">
-                                <p class="card-header-title">
+                                <p class="card-header-title task-theader-title">
                                     {{ t.name }}
                                 </p>
                                 <div class="is-flex is-justify-content-flex-end">
                                     <span class="icon has-text-info icon is-medium">
                                         <a id="task-edit-button">
-                                            <i class="far fa-edit fa-lg"></i>
+                                            <i class="far fa-edit fa"></i>
+                                        </a>
+                                    </span>
+                                    <span class="icon has-text-info icon is-medium">
+                                        <a id="task-close-button">
+                                            <i class="far fa-window-close fa"></i>
+                                        </a>
+                                    </span>
+                                    <span class="icon has-text-info icon is-medium">
+                                        <a id="task-delete-button">
+                                            <i class="far fa-trash fa"></i>
                                         </a>
                                     </span>
                                     <span class="icon has-text-warning icon is-medium">
