@@ -26,7 +26,7 @@
             <div class="stage-content">
                 <ul class="task-list is-flex is-justify-content-center is-align-content-center is-flex-direction-column is-align-items-center is-justify-items-center">
                     {% for t in s.tasks %}
-                    <li class="task card mb-2">
+                    <li id ="task{{taskid}}" class="task card mb-2">
                         <div class="expandable-container">
                             <header class="card-header">
                                 <p class="card-header-title task-theader-title">
@@ -34,17 +34,17 @@
                                 </p>
                                 <div class="is-flex is-justify-content-flex-end">
                                     <span class="icon has-text-info icon is-medium">
-                                        <a id="task-edit-button">
+                                        <a id="task-edit-button" onclick="taskController({{t.id}}, 'edit')">
                                             <i class="far fa-edit fa"></i>
                                         </a>
                                     </span>
                                     <span class="icon has-text-info icon is-medium">
-                                        <a id="task-close-button">
+                                        <a id="task-close-button" onclick="taskController({{t.id}}, 'close')">
                                             <i class="far fa-window-close fa"></i>
                                         </a>
                                     </span>
                                     <span class="icon has-text-info icon is-medium">
-                                        <a id="task-delete-button">
+                                        <a id="task-delete-button" onclick="taskController( {{t.id}}, 'del', '{{csrf_token()}}')">
                                             <i class="far fa-trash fa"></i>
                                         </a>
                                     </span>
@@ -194,4 +194,5 @@
     <button class="modal-close is-large" aria-label="close"></button>
 </div> <!-- edit Prject Modals END -->
 <script src="{{ url_for('static', filename='js/expandCards.js') }}"></script>
+<script src="{{ url_for('static', filename='js/taskControll.js') }}"></script>
 {% endblock %}

@@ -30,7 +30,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     stage_id = db.Column(db.Integer, db.ForeignKey('stage.id'), nullable=False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(100), unique=False, nullable=False)
     description = db.Column(db.String(500))
     details = db.Column(db.String(1000))
     owner = db.Column(db.String(30))

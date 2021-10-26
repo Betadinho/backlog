@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, redirect, request, session
+from flask import Blueprint, render_template, redirect, request, flash
 from flask_login.utils import login_required
 from flask_login import current_user
+from sqlalchemy.sql.expression import true
 from . import db
 from .models import Task, Project, Stage
 from sqlalchemy import exc
+from http import HTTPStatus
 
 main = Blueprint('main', __name__)
 
@@ -85,11 +87,14 @@ def edit_project():
 def edit_task():
     return redirect('/')
 
-@main.route('/delete_task', methods=['DELETE'])
+@main.route('/delete_task/<taskid>', methods=['DELETE'])
 @login_required
-def delete_task():
-    task_id = request.args['del_task_id']
-    task = db.session.query(Task).filter_by(id=task_id)
-    db.session.delete(task)
-    db.session.commit()
-    return redirect('/')
+def delete_task(taskid=None):
+	try:
+		task = db.session.query(Task).filter(Task.id==taskid).first()
+		db.session.delete(task)
+		db.session.commit()
+		return ('', HTTPStatus.OK)
+	except exc.SQLAlchemyError:
+		flash("An Error Occured.", 'error')
+		return ('', 500)
