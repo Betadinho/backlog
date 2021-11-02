@@ -6,19 +6,24 @@
 
 {% block content %}
 <div class="board container mt-4">
-    <div class="project-title is-flex is-flex-direction-row is-justify-content-space-between">
-        <h2>{{ project.name }}</h2>
-        <p>{{ project.description }}</p>
-        <p>{{ project.owner }}</p>
-        <span class="icon has-text-info icon is-medium">
-            <a id="project-edit-button">
-                <i class="far fa-edit fa-lg"></i>
-            </a>
-        </span>
-    </div>
-    <div class="columns">
+<!-- project-title is-flex is-flex-direction-row is-justify-content-space-between -->
+    <div class="level">
+			<h2 class="level-item">{{ project.name }}</h2>
+			<p class="level-item">{{ project.description }}</p>
+			<p class="level-item">{{ project.owner }}</p>
+				<a class="level-item" id="stage-add-button">
+					<i class="fas fa-plus mr-1"></i> 
+				<p>Add Stage</p>
+				</a>
+			<span class="level-item icon has-text-info icon is-medium">
+				<a id="project-edit-button">
+					<i class="far fa-edit fa-lg"></i>
+				</a>
+			</span>
+	</div>
 
-{% for s in project.stages %}
+    <div class="columns">
+	{% for s in project.stages %}
         <div class="column stage is-one-third">
             <div class="stage-title">
                 <h5> {{ s.name }}</h5>
@@ -56,37 +61,37 @@
                                 </div>
                             </header>
                             <div class=" card-content">
-                                                <div class="content">
-                                                    <p class="task-details">
-                                                        {{ t.description }}
-                                                    </p>
-                                                    <p>____________________</p>
-                                                    <div class="expandable-content">
-                                                        {{ t.details }}</div>
-                                                    <br>
-
-                                                </div>
-                                </div>
+								<div class="content">
+									<p class="task-details">
+										{{ t.description }}
+									</p>
+									<p>____________________</p>
+									<div class="expandable-content">
+										{{ t.details }}
+									</div>
+									<br>
+								</div>
+							</div>
                                 <footer class="card-footer is-flex is-justify-content-flex-end">
                                     <span class="is-flex flex-start">
                                         <time datetime="2016-1-1" class="has-text-weight-light is-size-7">Due date:
-                                            11:09 PM - 1 Jan 2016 </time>
+                                            11:09 PM - 1 Jan 2016
+										</time>
                                     </span>
                                     <span class="is-flex">
                                         <p class="has-text-weight-light is-size-7 pl-3"> Assigned: {{t.owner}}</p>
                                     </span>
                                 </footer>
                         </div>
-                    
                     </li>
         {% endfor %}
                 </ul>
             </div>
         </div>
-{% endfor %}
-
-    </div>
+	{% endfor %}
+	</div>
 </div>
+
 <div class="modal" id="task-edit-modal">
     <div class="modal-background">
     </div>
@@ -193,6 +198,102 @@
     </div>
     <button class="modal-close is-large" aria-label="close"></button>
 </div> <!-- edit Prject Modals END -->
+<div class="modal" id="stage-add-modal">
+    <div class="modal-background">
+    </div>
+    <div class="modal-content">
+        <div class="box signup-container">
+            <div class="has-text-centered">
+                <h1 class=title is-1>Add Stage</h1>
+            </div>
+
+            <form action="{{url_for('main.view_project')}}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <input type="hidden" name="projectid" value="{{ project.id }}" />
+                <div class="field">
+                    <label class="label">Stage name</label>
+                    <div class="control">
+                        <input class="input is-primary first-field" type="text" name="stagename" placeholder="Stage name"
+                            value="" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Short stage description</label>
+                    <div class="control">
+                        <input class="input is-primary" type="text" name="stagedescription"
+                            placeholder="Short description" value="" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button type="button" class="button is-light cancel">Cancel</button>
+                    </div>
+                </div> <!-- stage add modal form end -->
+            </form>
+
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+</div> 
+
+<div class="modal" id="task-create-modal">
+	<div class="modal-background">
+	</div>
+	<div class="modal-content">
+		<div class="box signup-container">
+			<div class="has-text-centered"><h1 class=title is-1>Create new task</h1></div>
+
+			<form action="/create_task" method="POST">
+				<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+				{% if project %}
+					<input type="hidden" name="stage_id" value="{{ project.stages[0]['id']}}"/>
+				{% endif %}
+				<div class="field">
+					<label class="label">Task name</label>
+					<div class="control">
+					<input class="input is-primary first-field" type="text" name="task_name" placeholder="Task name" value="" autocomplete="off" required>
+					</div>
+				</div>
+
+				<div class="field">
+					<label class="label">Short task description</label>
+					<div class="control">
+					<input class="input is-primary" type="text" name="task_description" placeholder="Short description" value="" autocomplete="off" required>
+					</div>
+				</div>
+
+				<div class="field">
+					<label class="label">Detailed task information</label>
+					<div class="control">
+					<textarea class="textarea is-medium is-primary" type="text" name="task_details" placeholder="Detailed description" value="" autocomplete="off"></textarea>
+					</div>
+				</div>
+
+				<div class="field">
+					<label class="label">Assinged to</label>
+					<div class="control">
+						<input class="input is-primary" type="text" name="task_assingee" placeholder="Assing people to this task" value="" autocomplete="off" required/>
+					</div>
+				</div>
+				<div class="field is-grouped">
+					<div class="control">
+					<button type="submit" class="button is-primary">Submit</button>
+					</div>
+					<div class="control">
+					<button  type="button" class="button is-light cancel">Cancel</button>
+					</div>
+				</div> <!-- create task-Modal form end -->
+			</form>
+
+		</div>
+	</div>
+	<button class="modal-close is-large" aria-label="close"></button>
+</div> <!-- create task Modals END -->
 <script src="{{ url_for('static', filename='js/expandCards.js') }}"></script>
 <script src="{{ url_for('static', filename='js/crudController.js') }}"></script>
 {% endblock %}

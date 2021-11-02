@@ -62,6 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	const project_delete_button = document.getElementById('project-delete-button');
 	const project_delete_modal = document.getElementById('project-delete-modal');
 
+	const stage_add_button = document.getElementById('stage-add-button');
+	const stage_add_modal = document.getElementById('stage-add-modal');
+
 	const modal_group = [
 		{name:'login', button:login_button, modal:login_modal},
 		{name:'signup', button:signup_button, modal:signup_modal},
@@ -69,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		{name:'editproject', button:project_edit_button, modal:project_edit_modal},
 		{name:'deleteproject', button:project_delete_button, modal:project_delete_modal},
 		{name:'createtask', button:task_create_button, modal:task_create_modal},
-		{name:'edittask', button:task_edit_button, modal:task_edit_modal}
+		{name:'edittask', button:task_edit_button, modal:task_edit_modal},
+		{name:'addstage', button:stage_add_button, modal:stage_add_modal}
 	];
 
 	for(const e of modal_group) {

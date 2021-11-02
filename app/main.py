@@ -36,14 +36,27 @@ def dashboard():
 	numberOfProjects = len(projects)
 	return render_template('dashboard/dashboard.html', projects=projects, numberOfProjects=numberOfProjects)
 
-@main.route('/project/', methods=['GET'])
+@main.route('/project/', methods=['GET', 'POST'])
 @login_required
 def view_project():
-    projectname = request.args.get('projectname')
-    projects = Project.query.all()
-    project = Project.query.filter_by(name=projectname).first_or_404()
-    return render_template('project/project.html', project=project, projects=projects)
+	if(request.method == 'GET'):		
+		projectname = request.args.get('projectname')
+		projects = Project.query.all()
+		project = Project.query.filter_by(name=projectname).first_or_404()
+		return render_template('project/project.html', project=project, projects=projects)
+	if(request.method == 'POST'):
+		projectid = request.form.get('projectid')
+		project = Project.query.filter_by(id=projectid).first_or_404()
+		stage = Stage(
+						project_id = projectid,
+						name = request.form.get('stagename'),
+						description = request.form.get('stagedescription')
+						)
+		project.stages.append(stage)
+		db.session.commit()
+		return redirect(request.referrer)
 
+		
 @main.route('/create_project', methods=['POST'])
 @login_required
 def create_project():
