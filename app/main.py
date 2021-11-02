@@ -98,19 +98,6 @@ def delete_task(taskid=None):
 		flash("An Error Occured during deletion querry: "+e, 'error')
 		return ('', HTTPStatus.INTERNAL_SERVER_ERROR)
 
-# @main.route('/delete_project/<projectid>', methods=['DELETE'])
-# @login_required
-# def delete_project(projectid=None):
-# 	try:
-# 		project = db.session.query(Project).filter(Project.id==projectid).first()
-# 		db.session.delete(project)
-# 		db.session.commit()
-# 		return ('', HTTPStatus.NO_CONTENT)
-# 	except (exc.SQLAlchemyError) as e:
-# 		response = jsonify(error=e)
-# 		response.status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-# 		return response
-
 @main.route('/delete_project', methods=['POST'])
 @login_required
 def delete_project():
