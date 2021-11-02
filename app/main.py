@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, flash
+from flask import Blueprint, render_template, redirect, request, flash, jsonify
 from flask_login.utils import login_required
 from flask_login import current_user
 from sqlalchemy.sql.expression import true
@@ -29,18 +29,17 @@ def index():
 def profile():
 	return render_template('profile/profile.html')
 
-@main.route('/dashboard')
+@main.route('/dashboard/')
 @login_required
 def dashboard():
-	#return render_template('dashboard/dashboard.html')
-    projects = Project.query.all()
-    return render_template('dashboard/dashboard.html', projects=projects)
+	projects = Project.query.all()
+	numberOfProjects = len(projects)
+	return render_template('dashboard/dashboard.html', projects=projects, numberOfProjects=numberOfProjects)
 
 @main.route('/project/', methods=['GET'])
 @login_required
 def view_project():
     projectname = request.args.get('projectname')
-    
     projects = Project.query.all()
     project = Project.query.filter_by(name=projectname).first_or_404()
     return render_template('project/project.html', project=project, projects=projects)
@@ -94,7 +93,33 @@ def delete_task(taskid=None):
 		task = db.session.query(Task).filter(Task.id==taskid).first()
 		db.session.delete(task)
 		db.session.commit()
-		return ('', HTTPStatus.OK)
-	except exc.SQLAlchemyError:
-		flash("An Error Occured.", 'error')
-		return ('', 500)
+		return ('', HTTPStatus.NO_CONTENT)
+	except exc.SQLAlchemyError as e:
+		flash("An Error Occured during deletion querry: "+e, 'error')
+		return ('', HTTPStatus.INTERNAL_SERVER_ERROR)
+
+# @main.route('/delete_project/<projectid>', methods=['DELETE'])
+# @login_required
+# def delete_project(projectid=None):
+# 	try:
+# 		project = db.session.query(Project).filter(Project.id==projectid).first()
+# 		db.session.delete(project)
+# 		db.session.commit()
+# 		return ('', HTTPStatus.NO_CONTENT)
+# 	except (exc.SQLAlchemyError) as e:
+# 		response = jsonify(error=e)
+# 		response.status_code = HTTPStatus.INTERNAL_SERVER_ERROR
+# 		return response
+
+@main.route('/delete_project', methods=['POST'])
+@login_required
+def delete_project():
+	projectid = request.form.get('delete_project_id')
+	try:
+		project = db.session.query(Project).filter(Project.id==projectid).first()
+		db.session.delete(project)
+		db.session.commit()
+		return redirect(request.referrer)
+	except (exc.SQLAlchemyError) as e:
+		flash('An Error occured', 'error')
+		return redirect(request.referrer)

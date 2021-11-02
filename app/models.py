@@ -4,7 +4,7 @@ from . import db
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(1000), unique=True)
-    name = db.Column(db.String(1000)) 
+    name = db.Column(	db.String(1000)) 
     password = db.Column(db.String(100))
     role = db.Column(db.String(50))
     projects = db.relationship('Project', backref='user', lazy=True)
@@ -16,7 +16,7 @@ class Project(db.Model):
     name = db.Column(db.String(100), unique=True)
     description = db.Column(db.String(500))
     details = db.Column(db.String(1000))
-    stages = db.relationship('Stage', backref='project', lazy=True)
+    stages = db.relationship('Stage', backref='project', lazy=True, cascade="all,delete")
     owner_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
 class Stage(db.Model):
