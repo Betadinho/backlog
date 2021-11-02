@@ -47,6 +47,9 @@ def view_project():
 	if(request.method == 'POST'):
 		projectid = request.form.get('projectid')
 		project = Project.query.filter_by(id=projectid).first_or_404()
+		if len(project.stages) >= 3:
+			flash('Projects cant hold more then 3 stages.', 'error')
+			return redirect(request.referrer)
 		stage = Stage(
 						project_id = projectid,
 						name = request.form.get('stagename'),
