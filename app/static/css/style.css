@@ -7,11 +7,18 @@
 }
 
 .stage {
-    border-right: 2px solid #d81b60;
+    border-right: 1px solid #d81b60;
     height: 100%;
 }
+
+.stage-title {
+	width: fit-content;
+	margin: 0;
+	padding: 0;
+}
+
 .stage:first-child {
-    border-left: 2px solid #d81b60;
+    border-left: 1px solid #d81b60;
 }
 
 ul {

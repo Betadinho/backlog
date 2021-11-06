@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+<param name="CSRFTOKEN" value="{{ csrf_token() }}">
 <div class="board container mt-4">
 <!-- project-title is-flex is-flex-direction-row is-justify-content-space-between -->
     <div class="level">
@@ -28,15 +29,17 @@
 
     <div class="columns">
 	{% for s in project.stages %}
-        <div class="column stage is-one-third">
+        <div class="column stage is-one-third dropzone">
+		<param name="stageid" value="{{ s.id }}">
             <div class="stage-title">
                 <h5> {{ s.name }}</h5>
             </div>
             <div class="stage-content">
-                <ul class="task-list is-flex is-justify-content-center is-align-content-center is-flex-direction-column is-align-items-center is-justify-items-center">
+                <ul id="stage{{s.id}}" class="task-list is-flex is-justify-content-center is-align-content-center is-flex-direction-column is-align-items-center is-justify-items-center">
                     {% for t in s.tasks %}
-                    <li id ="task{{taskid}}" class="task card mb-2">
-                        <div class="expandable-container">
+                    <li id="task{{t.id}}"  draggable="true" ondragstart="event.dataTransfer.setData('text/plain', null)" class="task card mb-2">
+                        <param name="taskid" value="{{ t.id }}">
+						<div class="expandable-container">
                             <header class="card-header">
                                 <p class="card-header-title task-theader-title">
                                     {{ t.name }}
@@ -88,11 +91,11 @@
                                 </footer>
                         </div>
                     </li>
-        {% endfor %}
+	{% endfor %}
                 </ul>
             </div>
         </div>
-	{% endfor %}
+{% endfor %}
 	</div>
 </div>
 
@@ -211,7 +214,7 @@
                 <h1 class=title is-1>Add Stage</h1>
             </div>
 
-            <form action="{{url_for('main.view_project')}}" method="POST">
+            <form action="{{ url_for('main.view_project') }}" method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 <input type="hidden" name="projectid" value="{{ project.id }}" />
                 <div class="field">
@@ -299,5 +302,6 @@
 	<button class="modal-close is-large" aria-label="close"></button>
 </div> <!-- create task Modals END -->
 <script src="{{ url_for('static', filename='js/expandCards.js') }}"></script>
-<script src="{{ url_for('static', filename='js/crudController.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/crudController.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/dragHandler.js') }}"></script>
 {% endblock %}

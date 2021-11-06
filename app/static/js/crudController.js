@@ -43,7 +43,7 @@ function projectController(projectid, cmd, csrf) {
 		})
 			.then(response => response.json())
 			.then(result => {
-				console.log('Success: ', result);
+				//console.log('Result: ', result);
 			})
 			.catch(error => {
 				console.log(error);
@@ -58,4 +58,22 @@ function projectController(projectid, cmd, csrf) {
 		break;
 			
 	}
+}
+
+// eslint-disable-next-line no-unused-vars
+export function persistTaskStageChange(taskid, stageid, csrf) {
+	const headers = new Headers({
+		'X-CSRF-TOKEN': csrf,
+	});
+	fetch(`/persiststage?taskid=${taskid}&stageid=${stageid}`, {
+		method: 'POST',
+		headers
+		})
+		.then(response => response.json())
+		.then(result => {
+			console.log('Success: ', result);
+		})
+		.catch(error => {
+			console.log(error);
+		});
 }

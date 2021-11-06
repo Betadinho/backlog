@@ -44,6 +44,7 @@ def view_project():
 		projects = Project.query.all()
 		project = Project.query.filter_by(name=projectname).first_or_404()
 		return render_template('project/project.html', project=project, projects=projects)
+	# Accessing this endpot with POST is a request to add a stage to the project 
 	if(request.method == 'POST'):
 		projectid = request.form.get('projectid')
 		project = Project.query.filter_by(id=projectid).first_or_404()
@@ -111,7 +112,7 @@ def delete_task(taskid=None):
 		db.session.commit()
 		return ('', HTTPStatus.NO_CONTENT)
 	except exc.SQLAlchemyError as e:
-		flash("An Error Occured during deletion querry: "+e, 'error')
+		flash("An error occured during deletion of task: "+e, 'error')
 		return ('', HTTPStatus.INTERNAL_SERVER_ERROR)
 
 @main.route('/delete_project', methods=['POST'])
@@ -124,5 +125,19 @@ def delete_project():
 		db.session.commit()
 		return redirect(request.referrer)
 	except (exc.SQLAlchemyError) as e:
-		flash('An Error occured', 'error')
+		flash('An error occured', 'error')
 		return redirect(request.referrer)
+
+@main.route('/persiststage', methods=['POST'])
+@login_required
+def persiststage():
+	stageid =request.args.get('stageid', default=None, type=int)
+	taskid = request.args.get('taskid', default=None, type=int)
+	try:
+		task = Task.query.get(taskid)
+		task.stage_id= stageid
+		db.session.commit()
+		return (jsonify('Success'), HTTPStatus.OK)
+	except (exc.SQLAlchemyError) as e:
+		flash('An error occured while moving task to different stage', 'error')
+		return (jsonify('Error'), HTTPStatus.INTERNAL_SERVER_ERROR)
