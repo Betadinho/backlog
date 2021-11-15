@@ -70,7 +70,7 @@ def create_project():
 	owner_id = current_user.get_id()
 
 	project = Project(name=name, owner_id=owner_id, description=description, details=details)
-	project.stages = [Stage(name="All Tasks")]
+	project.stages = [Stage(name="Backlog")]
 
 	db.session.add(project)
 	db.session.commit()
