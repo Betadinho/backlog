@@ -102,11 +102,12 @@
 
 								<form action="/edit_task" method="POST">
 									<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+									<input type="hidden" name="targetid" value="{{ t.id }}" />
 									<div class="field">
 										<label class="label">Task name</label>
 										<div class="control">
 											<input class="input is-primary first-field" type="text" name="task_name" placeholder="Task name"
-												value="" autocomplete="off" required>
+												value="{{t.name}}" autocomplete="off">
 										</div>
 									</div>
 
@@ -114,7 +115,7 @@
 										<label class="label">Short task description</label>
 										<div class="control">
 											<input class="input is-primary" type="text" name="task_description"
-												placeholder="Short description" value="" autocomplete="off" required>
+												placeholder="Short description" value="{{t.description}}" autocomplete="off">
 										</div>
 									</div>
 
@@ -122,7 +123,7 @@
 										<label class="label">Detailed task information</label>
 										<div class="control">
 											<textarea class="textarea is-medium is-primary" type="text" name="task_details"
-												placeholder="Detailed description" value="" autocomplete="off"></textarea>
+												placeholder="Detailed description" value="{{t.details}}" autocomplete="off"></textarea>
 										</div>
 									</div>
 
@@ -130,7 +131,7 @@
 										<label class="label">Assinged to</label>
 										<div class="control">
 											<input class="input is-primary" type="text" name="task_assingee"
-												placeholder="Assing people to this task" value="" autocomplete="off" required />
+												placeholder="Assing people to this task" value="{{t.assignee}}" autocomplete="off"/>
 										</div>
 									</div>
 
@@ -271,7 +272,7 @@
 				<div class="field">
 					<label class="label">Short task description</label>
 					<div class="control">
-					<input class="input is-primary" type="text" name="task_description" placeholder="Short description" value="" autocomplete="off" required>
+					<input class="input is-primary" type="text" name="task_description" placeholder="Short description" value="" autocomplete="off">
 					</div>
 				</div>
 
