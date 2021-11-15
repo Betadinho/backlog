@@ -130,9 +130,6 @@ function projectController(projectid, cmd, csrf) {
 				window.location.reload();
 			});
 		break;
-	case 'edit':
-		//Do stuff
-		break;
 	case 'close':
 		//Do stuff
 		break;

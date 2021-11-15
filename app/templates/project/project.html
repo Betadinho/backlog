@@ -165,13 +165,14 @@
                 <h1 class=title is-1>Edit project</h1>
             </div>
 
-            <form action="/edit_task" method="POST">
+            <form action="/edit_project" method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <input type="hidden" name="targetid" value="{{ project.id }}" />
                 <div class="field">
                     <label class="label">Project name</label>
                     <div class="control">
                         <input class="input is-primary first-field" type="text" name="project_name"
-                            placeholder="Project name" value="" autocomplete="off" required>
+                            placeholder="Project name" value="{{project.name}}" autocomplete="off" required>
                     </div>
                 </div>
 
@@ -179,7 +180,7 @@
                     <label class="label">Short project description</label>
                     <div class="control">
                         <input class="input is-primary" type="text" name="project_description"
-                            placeholder="Short description" value="" autocomplete="off" required>
+                            placeholder="Short description" value="{{project.description}}" autocomplete="off" required>
                     </div>
                 </div>
 
@@ -187,7 +188,7 @@
                     <label class="label">Detailed project information</label>
                     <div class="control">
                         <textarea class="textarea is-medium is-primary" type="text" name="project_details"
-                            placeholder="Detailed project description" value="" autocomplete="off"></textarea>
+                            placeholder="Detailed project description" value="{{project.details}}" autocomplete="off"></textarea>
                     </div>
                 </div>
 

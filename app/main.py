@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, request, flash, jsonify
+from flask.helpers import url_for
 from flask_login.utils import login_required
 from flask_login import current_user
 from sqlalchemy.sql.expression import true
@@ -93,10 +94,30 @@ def create_task():
 	
 	return redirect(request.referrer)
 
-@main.route('/edit_project')
+@main.route('/edit_project', methods=['POST'])
 @login_required
 def edit_project():
-	return redirect('/')
+	targetid = request.form.get('targetid')
+	name = request.form.get('project_name')
+	description = request.form.get('project_description')
+	details = request.form.get('project_details')
+	try:
+		targetProject = Project.query.get(targetid)
+		targetProject.description = description 
+		targetProject.details = details
+		if targetProject.name == name and 'project' in str(request.referrer):
+			db.session.commit()
+			return redirect(request.referrer)
+		else:
+			targetProject.name = name 
+			db.session.commit()
+			return redirect(url_for('main.view_project', projectname=name))
+	except exc.SQLAlchemyError as e:
+		if 'UNIQUE constraint' in str(e):
+			flash('An error occured on our side. The project name is already in use!', 'error')	
+		else:
+			flash('An error occured on our side. We are sorry. Please try again later!', 'error')	
+		return redirect(request.referrer)
 
 @main.route('/edit_task')
 @login_required
