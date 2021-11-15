@@ -122,7 +122,7 @@ def delete_project(projectid=None):
 		project = db.session.query(Project).filter(Project.id==projectid).first()
 		db.session.delete(project)
 		db.session.commit()
-		return (jsonify('Succes'), HTTPStatus.OK)
+		return (jsonify('Success'), HTTPStatus.OK)
 	except (exc.SQLAlchemyError) as e:
 		flash('We are sorry. An error occured on our end. Please try again later!', 'error')
 		print(e)
