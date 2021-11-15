@@ -63,6 +63,10 @@ document.addEventListener('drop', function( event ) {
 	event.preventDefault();
 	// move dragged elem to the selected drop target
 	if ( event.target.classList.contains('dropzone') ) {
+		if(event.target.querySelector('.empty-stage-msg')){
+			event.target.querySelector('.empty-stage-msg')
+			.classList.add('is-hidden');
+		}
 		event.target.style.background = '';
 		dragged.parentNode.removeChild( dragged );
 		event.target.querySelector('.task-list').appendChild( dragged );

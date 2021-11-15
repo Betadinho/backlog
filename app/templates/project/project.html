@@ -35,8 +35,11 @@
                 <h5> {{ s.name }}</h5>
             </div>
             <div class="stage-content">
+				{% if s.tasks|length == 0 %}
+					<h4 class="empty-stage-msg is-unselectable has-text-grey has-text-centered">Nothing here yet</h4>
+				{% endif %}
                 <ul id="stage{{s.id}}" class="task-list is-flex is-justify-content-center is-align-content-center is-flex-direction-column is-align-items-center is-justify-items-center">
-                    {% for t in s.tasks %}
+					{% for t in s.tasks %}
                     <li id="task{{t.id}}"  draggable="true" ondragstart="event.dataTransfer.setData('text/plain', null)" class="task card mb-2">
                         <param name="taskid" value="{{ t.id }}">
 						<div class="expandable-container">
