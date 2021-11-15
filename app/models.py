@@ -24,7 +24,7 @@ class Stage(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     name = db.Column(db.String(100), unique=False, nullable=False)
     description = db.Column(db.String(500))
-    tasks = db.relationship('Task', backref='stage', lazy=True)
+    tasks = db.relationship('Task', backref='stage', lazy=True, cascade="all,delete")
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
