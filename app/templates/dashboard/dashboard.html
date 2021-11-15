@@ -21,12 +21,12 @@
                     </p>
                     <div class="is-flex is-justify-content-flex-end">
                         <span class="icon has-text-info icon is-medium">
-                            <a onclick="toggleSpecificModal({targetid:{{p.id}}, action:'e'})">
+                            <a onclick="toggleSpecificModal({targetid:{{p.id}}, action:'e', target:'p'})">
                                 <i class="far fa-edit fa-lg"></i>
                             </a>
                         </span>
 						<span class="icon has-text-info icon is-medium">
-							<a onclick="toggleSpecificModal({targetid:{{p.id}}, action:'d'})">
+							<a onclick="toggleSpecificModal({targetid:{{p.id}}, action:'d', target:'p'})">
 								<i class="far fa-trash fa"></i>
 								<form action="" id="delete_project_form_{{p.id}}">
 									<input type="hidden" name="delete_project_id" value="{{p.id}}">

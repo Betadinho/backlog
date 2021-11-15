@@ -60,13 +60,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 });
 
-function toggleSpecificModal({targetid=null, action=null, modal=null}) {
-	switch (action) {
-		case 'd':
+function toggleSpecificModal({targetid=null, action=null, modal=null, target=null}) {
+	switch (true) {
+		case (target == 'p') && (action == 'd') :
 			modal = document.getElementById('project-delete-modal'+targetid);
 			break;
-		case 'e':
-			modal = document.getElementById('project-edit-modal'+targetid);	
+		case (target == 'p') && (action == 'e') :
+			modal = document.getElementById('project-edit-modal'+targetid);
+			break;
+		case (target == 't') && (action == 'd') :
+			modal = document.getElementById('task-delete-modal'+targetid);
+			break;
+		case (target == 't') && (action == 'e') :
+			modal = document.getElementById('task-edit-modal'+targetid);
 			break;
 		default:
 			modal = modal;
@@ -81,20 +87,6 @@ function toggleSpecificModal({targetid=null, action=null, modal=null}) {
 	for (const el of modal_close) {
 		el.addEventListener('click', () => {
 			html.classList.remove('is-clipped');
-			modal.classList.remove('is-active');
-		});
-	}
-}
-
-function modalToggle(modal, html) {
-	html[0].classList.add('is-clipped');
-	modal.classList.add('is-active');
-
-	//Toggle modal off when close (X in top right corner) or cancel button is clicked
-	let modal_close = modal.querySelectorAll('.modal-close, .cancel');
-	for (const el of modal_close) {
-		el.addEventListener('click', () => {
-			html[0].classList.remove('is-clipped');
 			modal.classList.remove('is-active');
 		});
 	}
