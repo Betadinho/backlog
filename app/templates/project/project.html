@@ -21,7 +21,7 @@
 					<p>Add Stage</p>
 				</a>
 			<span class="level-item icon has-text-info icon is-medium">
-				<a id="project-edit-button">
+				<a id="project-edit-button" onclick="toggleSpecificModal({targetid:{{project.id}}, action:'e', target:'p'})">
 					<i class="far fa-edit fa-lg"></i>
 				</a>
 			</span>
@@ -156,7 +156,7 @@
 	</div>
 </div>
 
-<div class="modal" id="project-edit-modal">
+<div class="modal" id="project-edit-modal{{project.id}}">
     <div class="modal-background">
     </div>
     <div class="modal-content">
