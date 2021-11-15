@@ -119,10 +119,23 @@ def edit_project():
 			flash('An error occured on our side. We are sorry. Please try again later!', 'error')	
 		return redirect(request.referrer)
 
-@main.route('/edit_task')
+@main.route('/edit_task', methods=['POST'])
 @login_required
 def edit_task():
-	return redirect('/')
+	targetid = request.form.get('targetid')
+	name = request.form.get('task_name')
+	description = request.form.get('task_description')
+	details = request.form.get('task_details')
+	try:
+		targetTask = Task.query.get(targetid)
+		targetTask.name = name
+		targetTask.description = description
+		targetTask.details = details
+		db.session.commit()
+		return redirect(request.referrer)
+	except exc.SQLAlchemyError as e:
+		flash('An error occured on our side. We are sorry. Please try again later!', 'error')
+		return redirect(request.referrer)
 
 @main.route('/delete_task/<taskid>', methods=['DELETE'])
 @login_required
