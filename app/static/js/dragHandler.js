@@ -107,27 +107,26 @@ function taskController(taskid, cmd, csrf) {
 			
 	}
 }
-
 // eslint-disable-next-line no-unused-vars
 function projectController(projectid, cmd, csrf) {
+	//const reload = window.location.href;
 	const headers = new Headers({
 		'X-CSRF-TOKEN': csrf
 	});
-	//let reload = window.location.href;
 	switch(cmd) {
 	case 'del':
 		fetch(`/delete_project/${projectid}`, {
 			method: 'DELETE',
 			headers,
-		})
+			})
 			.then(response => response.json())
 			.then(result => {
-				//console.log('Result: ', result);
+				console.log('Success: ', result);
+				window.location.reload();
 			})
 			.catch(error => {
-				console.log(error);
+				console.log('Error: ', error);
 			});
-		window.location.reload();
 		break;
 	case 'edit':
 		//Do stuff

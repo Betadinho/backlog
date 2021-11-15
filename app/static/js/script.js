@@ -15,6 +15,22 @@ function modalToggle(modal, html) {
 		});
 	}
 }
+function modalToggleDel(targetid) {
+	let modal = document.getElementById('project-delete-modal'+targetid);
+	let html = document.getElementsByTagName('html')[0];
+	html.classList.add('is-clipped');
+	modal.classList.add('is-active');
+	//document.getElementById('signup-first-field').focus();
+
+	//Toggle modal off when close (X in top right corner) or cancel button is clicked
+	let modal_close = modal.querySelectorAll('.modal-close, .cancel');
+	for (const el of modal_close) {
+		el.addEventListener('click', () => {
+			html.classList.remove('is-clipped');
+			modal.classList.remove('is-active');
+		});
+	}
+}
 document.addEventListener('DOMContentLoaded', () => {
 	//Bulma Navbar-Menu Mobile Toggle
 	// Get all "navbar-burger" elements
@@ -59,9 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const project_edit_button = document.getElementById('project-edit-button');
 	const project_edit_modal = document.getElementById('project-edit-modal');
 
-	const project_delete_button = document.getElementById('project-delete-button');
-	const project_delete_modal = document.getElementById('project-delete-modal');
-
 	const stage_add_button = document.getElementById('stage-add-button');
 	const stage_add_modal = document.getElementById('stage-add-modal');
 
@@ -70,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		{name:'signup', button:signup_button, modal:signup_modal},
 		{name:'createproject', button:project_create_button, modal:project_create_modal},
 		{name:'editproject', button:project_edit_button, modal:project_edit_modal},
-		{name:'deleteproject', button:project_delete_button, modal:project_delete_modal},
 		{name:'createtask', button:task_create_button, modal:task_create_modal},
 		{name:'edittask', button:task_edit_button, modal:task_edit_modal},
 		{name:'addstage', button:stage_add_button, modal:stage_add_modal}

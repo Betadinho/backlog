@@ -26,9 +26,9 @@
                             </a>
                         </span>
 						<span class="icon has-text-info icon is-medium">
-							<a id="project-delete-button">
+							<a id="project-delete-button" onclick="modalToggleDel({{p.id}})">
 								<i class="far fa-trash fa"></i>
-								<form id="delete_project_form" action="/delete_project" method="POST">
+								<form action="" id="delete_project_form_{{p.id}}">
 									<input type="hidden" name="delete_project_id" value="{{p.id}}">
 									<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 								</form>
@@ -66,8 +66,26 @@
                         </span>
                     </footer>
             </div>  
-        {% endfor %}
 
+			<div class="modal" id="project-delete-modal{{p.id}}">
+				<div class="modal-background">
+				</div>
+				<div class="modal-content">
+						<div class="box signup-container">
+							<p>Are you sure you want to delete this project?</p>
+							<div class="field is-grouped">
+								<div class="control">
+									<button onclick="projectController({{p.id}}, 'del', '{{csrf_token()}}')" type="button" class="button is-primary" form="delete_project_form_{{p.id}}">Submit</button>
+								</div>
+								<div class="control">
+									<button type="button" class="button is-light cancel" form="delete_project_form{{p.id}}">Cancel</button>
+								</div>
+							</div> <!-- "delete project" modal form end-->
+					</div>
+				</div>
+				<button class="modal-close is-large" aria-label="close"></button>
+			</div> 
+        {% endfor %}
     </div>
 </div>
 
@@ -121,23 +139,7 @@
     <button class="modal-close is-large" aria-label="close"></button>
 </div> <!-- edit project Modals END -->
 
-<div class="modal" id="project-delete-modal">
-    <div class="modal-background">
-    </div>
-    <div class="modal-content">
-			<div class="box signup-container">
-				<p>Are you sure you want to delete this project?</p>
-				<div class="field is-grouped">
-					<div class="control">
-						<button type="submit" class="button is-primary" form="delete_project_form">Submit</button>
-					</div>
-					<div class="control">
-						<button type="button" class="button is-light cancel" form="delete_project_form">Cancel</button>
-					</div>
-				</div> <!-- "delete project" modal form end
-		</div>
-    </div>
-    <button class="modal-close is-large" aria-label="close"></button>
-</div> <!-- delete project Modals END -->
+<!-- delete project Modals END-->
 <script src="{{ url_for('static', filename='js/expandCards.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dragHandler.js') }}"></script>
 {% endblock %}

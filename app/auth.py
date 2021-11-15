@@ -1,6 +1,6 @@
 from warnings import catch_warnings
 from flask import Blueprint, url_for, redirect, request, flash
-from flask_login import login_user
+from flask_login import login_user, login_manager
 from flask_login.utils import login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .validation_controller import SignupForm, LoginForm
@@ -68,4 +68,3 @@ def login():
 def logout():
     logout_user()
     return redirect('/')
-
