@@ -123,11 +123,12 @@ function projectController(projectid, cmd, csrf) {
 			.then(response => response.json())
 			.then(result => {
 				console.log('Success: ', result);
+				window.location.reload();
 			})
 			.catch(error => {
 				console.log('Error: ', error);
+				window.location.reload();
 			});
-			window.location.reload();
 		break;
 	case 'edit':
 		//Do stuff
@@ -156,3 +157,4 @@ function persistTaskStageChange(taskid, stageid, csrf) {
 			console.log(error);
 		});
 }
+

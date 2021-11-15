@@ -21,12 +21,12 @@
                     </p>
                     <div class="is-flex is-justify-content-flex-end">
                         <span class="icon has-text-info icon is-medium">
-                            <a id="project-edit-button">
+                            <a onclick="toggleSpecificModal({targetid:{{p.id}}, action:'e'})">
                                 <i class="far fa-edit fa-lg"></i>
                             </a>
                         </span>
 						<span class="icon has-text-info icon is-medium">
-							<a id="project-delete-button" onclick="modalToggleDel({{p.id}})">
+							<a onclick="toggleSpecificModal({targetid:{{p.id}}, action:'d'})">
 								<i class="far fa-trash fa"></i>
 								<form action="" id="delete_project_form_{{p.id}}">
 									<input type="hidden" name="delete_project_id" value="{{p.id}}">
@@ -84,62 +84,60 @@
 					</div>
 				</div>
 				<button class="modal-close is-large" aria-label="close"></button>
-			</div> 
+			</div>
+			<!-- Edit Project Modal-->
+			<div class="modal" id="project-edit-modal{{p.id}}">
+				<div class="modal-background">
+				</div>
+				<div class="modal-content">
+					<div class="box signup-container">
+						<div class="has-text-centered">
+							<h1 class=title is-1>Edit project</h1>
+						</div>
+
+						<form action="/edit_project" method="POST">
+							<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+							<div class="field">
+								<label class="label">Project name</label>
+								<div class="control">
+									<input class="input is-primary first-field" type="text" name="project_name"
+										placeholder="Project name" value="" autocomplete="off" required>
+								</div>
+							</div>
+
+							<div class="field">
+								<label class="label">Short project description</label>
+								<div class="control">
+									<input class="input is-primary" type="text" name="project_description"
+										placeholder="Short description" value="" autocomplete="off" required>
+								</div>
+							</div>
+
+							<div class="field">
+								<label class="label">Detailed project information</label>
+								<div class="control">
+									<textarea class="textarea is-medium is-primary" type="text" name="project_details"
+										placeholder="Detailed project description" value="" autocomplete="off"></textarea>
+								</div>
+							</div>
+
+							<div class="field is-grouped">
+								<div class="control">
+									<button type="submit" class="button is-primary">Submit</button>
+								</div>
+								<div class="control">
+									<button type="button" class="button is-light cancel">Cancel</button>
+								</div>
+							</div> <!-- "edit project" modal form end -->
+						</form>
+
+					</div>
+				</div>
+				<button class="modal-close is-large" aria-label="close"></button>
+			</div> <!-- Edit Project Modal END -->
         {% endfor %}
     </div>
 </div>
 
-<div class="modal" id="project-edit-modal">
-    <div class="modal-background">
-    </div>
-    <div class="modal-content">
-        <div class="box signup-container">
-            <div class="has-text-centered">
-                <h1 class=title is-1>Edit project</h1>
-            </div>
-
-            <form action="/edit_project" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                <div class="field">
-                    <label class="label">Project name</label>
-                    <div class="control">
-                        <input class="input is-primary first-field" type="text" name="project_name"
-                            placeholder="Project name" value="" autocomplete="off" required>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label class="label">Short project description</label>
-                    <div class="control">
-                        <input class="input is-primary" type="text" name="project_description"
-                            placeholder="Short description" value="" autocomplete="off" required>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label class="label">Detailed project information</label>
-                    <div class="control">
-                        <textarea class="textarea is-medium is-primary" type="text" name="project_details"
-                            placeholder="Detailed project description" value="" autocomplete="off"></textarea>
-                    </div>
-                </div>
-
-                <div class="field is-grouped">
-                    <div class="control">
-                        <button type="submit" class="button is-primary">Submit</button>
-                    </div>
-                    <div class="control">
-                        <button type="button" class="button is-light cancel">Cancel</button>
-                    </div>
-                </div> <!-- "edit project" modal form end -->
-            </form>
-
-        </div>
-    </div>
-    <button class="modal-close is-large" aria-label="close"></button>
-</div> <!-- edit project Modals END -->
-
-<!-- delete project Modals END-->
-<script src="{{ url_for('static', filename='js/expandCards.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dragHandler.js') }}"></script>
+<script src="{{ url_for('static', filename='js/crudController.js') }}"></script>
 {% endblock %}
