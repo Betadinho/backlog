@@ -16,7 +16,7 @@
                 <header class="card-header">
                     <p class="card-header-title">
                         <a href="{{ url_for('main.view_project', projectname=p.name) }}">
-                            {{ p.name }} 
+                            {{ p.name }}
                         </a>
                     </p>
                     <div class="is-flex is-justify-content-flex-end">
@@ -36,35 +36,32 @@
 						</span>
                         <span class="icon has-text-warning icon is-medium">
                             <a id="project-details-button" class="collapsible"
-                                onclick="toggle_task_details(this)">
+                                onclick="toggleCardDetails(this)">
                                 <i class="fas fa-lg fa-angle-down" aria-hidden="true"></i>
                             </a>
                         </span>
                     </div>
                 </header>
                 <div class=" card-content">
-                                    <div class="content">
-                                        <p class="project-details">
-                                            {{p.description}}
-                                        </p>
-                                        <p>____________________</p>
-                                        <div class="expandable-content">
-                                            <p>
-                                                {{p.details}}
-                                            </p>
-                                        </div>
-                                        <br>
-                                    </div>
-                    </div>
-                    <footer class="card-footer is-flex is-justify-content-flex-end">
-                        <span class="is-flex flex-start">
-                            <time datetime="2016-1-1" class="has-text-weight-light is-size-7">Created:
-                                11:09 PM - 1 Jan 2016 </time>
-                        </span>
-                        <span class="is-flex">
-                            <p class="has-text-weight-light is-size-7 pl-3"> Owner: p.owner</p>
-                        </span>
-                    </footer>
+					<div class="content">
+						<p class="project-details">
+							{{p.description}}
+						</p>
+						<div class="expandable-content">
+								{{p.details}}
+						</div>
+						<br>
+					</div>
+				</div>
+				<footer class="card-footer is-flex is-justify-content-flex-end">
+					<span class="is-flex flex-start">
+						<time datetime="2016-1-1" class="has-text-weight-light is-size-7">Created:
+							11:09 PM - 1 Jan 2016 </time>
+					</span>
+					<span class="is-flex">
+						<p class="has-text-weight-light is-size-7 pl-3"> Owner: p.owner</p>
+					</span>
+				</footer>
             </div>  
 
 			<div class="modal" id="project-delete-modal{{p.id}}">

@@ -2,7 +2,12 @@
 /* eslint-disable indent */
 'use strict';
 document.addEventListener('DOMContentLoaded', () => {
-	//Bulma Navbar-Menu Mobile Toggle
+	toggleNavbar();
+	manageSingleModals();
+});
+
+function toggleNavbar() {
+		//Bulma Navbar-Menu Mobile Toggle
 	// Get all "navbar-burger" elements
 	const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 	
@@ -23,7 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		});
 	} 	// <-- Navbarmenu togle end
-	    
+}
+
+function manageSingleModals() {
 	const signup_button = document.getElementById('signup-button');
 	const signup_modal = document.getElementById('signup-modal');
     
@@ -52,13 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	];
 	
 	for(const e of modal_group) {
-		(function() {
-			if(e.button) {
-				e.button.addEventListener('click', () => { toggleSpecificModal({modal:e.modal}); });
-            }
-		}());
+		if(e.button) {
+			e.button.addEventListener('click', () => { 
+				toggleSpecificModal({modal:e.modal}); 
+			});
+		}
 	}
-});
+}
 
 function toggleSpecificModal({targetid=null, action=null, modal=null, target=null}) {
 	switch (true) {
@@ -93,7 +100,7 @@ function toggleSpecificModal({targetid=null, action=null, modal=null, target=nul
 }
 
 // eslint-disable-next-line no-unused-vars
-function toggle_task_details(coll) { 
+function toggleCardDetails(coll) { 
 	coll.classList.toggle('active');
 	var content = coll.closest('.expandable-container').getElementsByClassName('expandable-content')[0];
 	if (content.style.maxHeight) {
