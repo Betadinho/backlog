@@ -4356,7 +4356,6 @@ button.dropdown-item.is-active {
   min-height: 2.5rem;
   position: relative;
   z-index: 30;
-  height: 30px;
 }
 .navbar.is-white {
   background-color: white;
@@ -10368,7 +10367,7 @@ a {
 .hero .navbar,
 body > .navbar {
   border-radius: 0;
-  /* height: 50px; */
+  height: 50px;
 }
 
 .pagination-link,
