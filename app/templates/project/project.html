@@ -44,8 +44,10 @@
                         <param name="taskid" value="{{ t.id }}">
 						<div class="expandable-container">
                             <header class="card-header">
-                                <p class="card-header-title task-theader-title">
-                                    {{ t.name }}
+                                <p class="card-header-title task-theader-title" draggable='false'>
+																	<a href="{{ url_for('main.task_view', taskid=t.id) }}" draggable='false'>
+																			{{ t.name }}
+																	</a>
                                 </p>
                                 <div class="is-flex is-justify-content-flex-end">
                                     <span class="icon has-text-info icon is-medium">
@@ -82,16 +84,16 @@
 									<br>
 								</div>
 							</div>
-                                <footer class="card-footer is-flex is-justify-content-flex-end">
-                                    <span class="is-flex flex-start">
-                                        <time datetime="2016-1-1" class="has-text-weight-light is-size-7">Due date:
-                                            11:09 PM - 1 Jan 2016
-										</time>
-                                    </span>
-                                    <span class="is-flex">
-                                        <p class="has-text-weight-light is-size-7 pl-3"> Assigned: {{t.owner}}</p>
-                                    </span>
-                                </footer>
+							<footer class="card-footer is-flex is-justify-content-flex-end">
+									<span class="is-flex flex-start">
+											<time datetime="2016-1-1" class="has-text-weight-light is-size-7">Created:
+													{{ t.time_created }}
+											</time>
+									</span>
+									<span class="is-flex">
+											<p class="has-text-weight-light is-size-7 pl-3"> Assigned: {{t.owner}}</p>
+									</span>
+							</footer>
                         </div>
                     </li>
 					<div class="modal" id="task-edit-modal{{t.id}}">

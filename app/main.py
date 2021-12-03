@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, request, flash, jsonify
 from flask.helpers import url_for
 from flask_login.utils import login_required
 from flask_login import current_user
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql.expression import true
 from . import db
 from .models import Task, Project, Stage
@@ -174,4 +175,15 @@ def persiststage():
 		return (jsonify('Success'), HTTPStatus.OK)
 	except (exc.SQLAlchemyError) as e:
 		flash('An error occured while moving task to different stage', 'error')
+		return (jsonify('Error'), HTTPStatus.INTERNAL_SERVER_ERROR)
+
+@main.route('/task', methods=['GET'])
+@login_required
+def task_view():
+	taskid = request.args.get('taskid', type=int)
+	try:
+		task = Task.query.get(taskid)
+		return render_template('task/task.html', task=task)
+	except(exec.exc.SQLAlchemyError) as e:
+		flash("Something went wrong")
 		return (jsonify('Error'), HTTPStatus.INTERNAL_SERVER_ERROR)
