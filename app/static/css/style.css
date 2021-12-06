@@ -1,8 +1,12 @@
+html {
+    overflow: auto;
+}
+
 
 #signup-modal .modal-content, #login-modal .modal-content {
 	overflow: hidden;
 }
-.login-container, .signup-container {
+.login-container, .signup-container, .add-comment-container {
 	height: auto;
 }
 
@@ -63,4 +67,10 @@ ul {
 .success{
     background-color: green;
 
+}
+
+.comment-container {
+    min-height: 65vh;
+    max-height: 65vh;
+    overflow: auto;
 }

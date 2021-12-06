@@ -1,7 +1,103 @@
-{% extends 'layout.html' %}
-{% block title %}
-   { { task.name }}
-{% endblock %}
+{% extends 'layout.html' %} {% block title %} {{ task.name }} {% endblock %} 
 {% block content %}
-  
+<div class="task-container box">
+  <h3 class="has-text-centered">{{ task.name }}</h3>
+  <h6>{{ task.description }}</h6>
+  <div class="has-text-left">{{ task.details }}</div>
+</div>
+<div class="comment-container">
+  {% for c in task.comments %}
+  <article class="message is-small">
+  <div class="message-header">
+    <p>{{c.author}}</p> 
+    <small>{{c.time_created}}</small>
+    <nav class="level is-mobile">
+          <div class="level-left">
+            <a class="level-item" aria-label="reply">
+              <span class="icon is-small">
+                <i class="fas fa-reply" aria-hidden="true"></i>
+              </span>
+            </a>
+            <a class="level-item" aria-label="retweet">
+              <span class="icon is-small">
+                <i class="fas fa-retweet" aria-hidden="true"></i>
+              </span>
+            </a>
+            <a class="level-item" aria-label="like">
+              <span class="icon is-small">
+                <i class="fas fa-star" aria-hidden="true"></i>
+              </span>
+            </a>
+          </div>
+        </nav>
+  </div>
+  <div class="message-body">
+    {{c.comment}}
+  </div>
+</article>
+  {% endfor %}
+</div>
+
+<div>
+  <form
+action="{{ url_for('main.addComment', taskid=task.id) }}"
+class="pb-0 mb-0 mt-2 pt-2"
+method="POST"
+>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <div class="field has-addons">
+    <p class="control is-expanded">
+      <input class="input" name="comment" type="text" placeholder="Add To the discussion...">
+    </p>
+    <p class="control">
+      <button class="button is-primary">
+        <icon class="far fa-paper-plane"></icon>
+      </button>
+      <a class="button" id="comment-add-button">
+        Longer Comment
+      </a>
+    </p>
+  </div>
+</form>
+</div>
+
+<div class="modal" id="comment-add-modal">
+  <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box add-comment-container">
+        <div class="has-text-centered">
+          <h1 class="title" is-1>Add Comment</h1>
+        </div>
+
+      <form
+        action="{{ url_for('main.addComment', taskid=task.id) }}"
+        class="pb-0 mb-0 mt-2 pt-2"
+        method="POST"
+      >
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <input type="hidden" name="taskid" value="{{ task.id }}" />
+        <div class="field">
+          <div class="control">
+           <textarea
+            class=" input textarea is-primary first-field"
+            name="comment"
+            type="text"
+            placeholder="Add to this discussion..."
+            value=""
+            ></textarea>
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <div class="control">
+            <button type="submit" class="button is-primary">Submit</button>
+          </div>
+          <div class="control">
+            <button type="button" class="button is-light cancel">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
 {% endblock %}

@@ -5,7 +5,7 @@ from flask_login import current_user
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql.expression import true
 from . import db
-from .models import Task, Project, Stage
+from .models import Task, Project, Stage, Comment
 from sqlalchemy import exc
 from http import HTTPStatus
 
@@ -186,4 +186,26 @@ def task_view():
 		return render_template('task/task.html', task=task)
 	except(exec.exc.SQLAlchemyError) as e:
 		flash("Something went wrong")
+		print(e)
 		return (jsonify('Error'), HTTPStatus.INTERNAL_SERVER_ERROR)
+
+@main.route('/task', methods=['POST'])
+@login_required
+def addComment():
+	taskid = request.args.get('taskid', type=int)
+	commentText = request.form.get('comment')
+	author = current_user
+	try:
+		task = Task.query.get(taskid)
+		comment = Comment(
+			task_id=taskid,      
+			author="Alpha",
+			comment=commentText
+		)
+		task.comments.append(comment)
+		db.session.commit()
+		return redirect(request.referrer)
+	except(exec.exc.SQLAlchemyError) as e:
+		flash("Something went wrong")
+		print(e)
+		return redirect(request.referrer)
