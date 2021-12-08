@@ -1,7 +1,10 @@
 {% extends 'layout.html' %} {% block title %} {{ task.name }} {% endblock %} 
 {% block content %}
-<div class="task-container box">
-  <h3 class="has-text-centered">{{ task.name }}</h3>
+<div class="task-container box mt-5">
+  <div class="level">
+    <h3 class="has-text-centered level-item">{{ task.name }}</h3>
+    <a class="level-item" href="{{ url_for('main.view_project', projectname=projectname) }}">From: {{ projectname }}</a>
+  </div>
   <h6>{{ task.description }}</h6>
   <div class="has-text-left">{{ task.details }}</div>
 </div>
@@ -12,36 +15,33 @@
     <p>{{c.author}}</p> 
     <small>{{c.time_created}}</small>
     <nav class="level is-mobile">
-          <div class="level-left">
-            <a class="level-item" aria-label="reply">
-              <span class="icon is-small">
-                <i class="fas fa-reply" aria-hidden="true"></i>
-              </span>
-            </a>
-            <a class="level-item" aria-label="retweet">
-              <span class="icon is-small">
-                <i class="fas fa-retweet" aria-hidden="true"></i>
-              </span>
-            </a>
-            <a class="level-item" aria-label="like">
-              <span class="icon is-small">
-                <i class="fas fa-star" aria-hidden="true"></i>
-              </span>
-            </a>
-          </div>
-        </nav>
+        <div class="level-left">
+          <a class="level-item" aria-label="reply">
+            <span class="icon is-small">
+              <i class="fas fa-reply" aria-hidden="true"></i>
+            </span>
+          </a>
+          <a class="level-item" aria-label="retweet">
+          <span class="icon is-small">
+            <i class="fas fa-retweet" aria-hidden="true"></i>
+          </span>
+          </a>
+          <a class="level-item" aria-label="like">
+          <span class="icon is-small">
+            <i class="fas fa-star" aria-hidden="true"></i>
+          </span>
+        </a>
+      </div>
+    </nav>
   </div>
   <div class="message-body">
     {{c.comment}}
   </div>
 </article>
   {% endfor %}
-</div>
-
-<div>
   <form
 action="{{ url_for('main.addComment', taskid=task.id) }}"
-class="pb-0 mb-0 mt-2 pt-2"
+class="pb-3 mb-6"
 method="POST"
 >
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
@@ -57,9 +57,11 @@ method="POST"
         Longer Comment
       </a>
     </p>
-  </div>
-</form>
+    </div>
+  </form>
 </div>
+
+
 
 <div class="modal" id="comment-add-modal">
   <div class="modal-background"></div>

@@ -181,9 +181,10 @@ def persiststage():
 @login_required
 def task_view():
 	taskid = request.args.get('taskid', type=int)
+	projectname = request.args.get('project_name')
 	try:
 		task = Task.query.get(taskid)
-		return render_template('task/task.html', task=task)
+		return render_template('task/task.html', task=task, projectname=projectname)
 	except(exec.exc.SQLAlchemyError) as e:
 		flash("Something went wrong")
 		print(e)

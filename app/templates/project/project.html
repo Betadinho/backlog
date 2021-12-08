@@ -45,7 +45,7 @@
 						<div class="expandable-container">
                             <header class="card-header">
                                 <p class="card-header-title task-theader-title" draggable='false'>
-																	<a href="{{ url_for('main.task_view', taskid=t.id) }}" draggable='false'>
+																	<a href="{{ url_for('main.task_view', taskid=t.id, project_name=project.name) }}" draggable='false'>
 																			{{ t.name }}
 																	</a>
                                 </p>

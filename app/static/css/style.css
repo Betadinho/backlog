@@ -72,5 +72,4 @@ ul {
 .comment-container {
     min-height: 65vh;
     max-height: 65vh;
-    overflow: auto;
 }
