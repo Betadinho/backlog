@@ -73,3 +73,23 @@ ul {
     min-height: 65vh;
     max-height: 65vh;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #292929; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #d81b60; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(117, 117, 117); 
+}
