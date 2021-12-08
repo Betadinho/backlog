@@ -1,5 +1,4 @@
 html {
-    overflow: auto;
 }
 
 
@@ -67,11 +66,6 @@ ul {
 .success{
     background-color: green;
 
-}
-
-.comment-container {
-    min-height: 65vh;
-    max-height: 65vh;
 }
 
 /* width */
