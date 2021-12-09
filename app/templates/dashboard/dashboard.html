@@ -72,7 +72,7 @@
 							<p>Are you sure you want to delete this project?</p>
 							<div class="field is-grouped">
 								<div class="control">
-									<button onclick="projectController({{p.id}}, 'del', '{{csrf_token()}}')" type="button" class="button is-primary" form="delete_project_form_{{p.id}}">Submit</button>
+									<button onclick="projectController({{p.id}}, 'del', '{{csrf_token()}}')" type="button" class="button is-danger" form="delete_project_form_{{p.id}}">Delete</button>
 								</div>
 								<div class="control">
 									<button type="button" class="button is-light cancel" form="delete_project_form{{p.id}}">Cancel</button>
