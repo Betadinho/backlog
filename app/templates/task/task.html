@@ -34,7 +34,11 @@
   <article class="message is-small">
   <div class="message-header">
     <p>{{c.author}}</p> 
-    <small>{{c.time_created}}</small>
+    <small>
+      <time datetime="{{time_created}}">
+        {{c.time_created}}
+      </time>
+    </small>
     <nav class="level is-mobile">
         <div class="level-left">
           <a class="level-item" aria-label="reply">
