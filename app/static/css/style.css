@@ -1,7 +1,3 @@
-html {
-}
-
-
 #signup-modal .modal-content, #login-modal .modal-content {
 	overflow: hidden;
 }
@@ -48,7 +44,7 @@ ul {
 
 /* Style the collapsible content. Note: hidden by default */
 .expandable-content {
-  padding: 0 18px;
+  padding: 0;
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.2s ease-out;
@@ -86,4 +82,16 @@ ul {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(117, 117, 117); 
+}
+
+.spacer {
+    display: block;;
+    margin-top: 0.8rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    opacity: .2;
+}
+
+.show-whitespace {
+  white-space: pre;
 }

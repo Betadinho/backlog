@@ -90,18 +90,16 @@ function taskController(taskid, cmd, csrf) {
 	switch(cmd) {
 	case 'del':
 		//returns a promise that resolves with a Response object
-		fetch(`/delete_task/${taskid}`, {
+		fetch(`/delete_task/${taskid}/`, {
 			method: 'DELETE',
 			headers,
 		})//returns a second promise that resolves with the result of parsing the response body text as JSON
-			.then(response => response.json())
 			.then(result => {
-				console.log('Success: ', result);
+				window.location.reload();
 			})
 			.catch(error => {
 				console.log('Error: ', error);
 			});
-			window.location.reload();
 		break;
 	case 'edit':
 		//Do stuff
@@ -131,7 +129,6 @@ function projectController(projectid, cmd, csrf) {
 			})
 			.catch(error => {
 				console.log('Error: ', error);
-				window.location.reload();
 			});
 		break;
 	case 'close':

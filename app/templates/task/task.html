@@ -1,14 +1,35 @@
 {% extends 'layout.html' %} {% block title %} {{ task.name }} {% endblock %} 
 {% block content %}
-<div class="task-container box mt-5">
-  <div class="level">
-    <h3 class="has-text-centered level-item">{{ task.name }}</h3>
-    <a class="level-item" href="{{ url_for('main.view_project', projectname=projectname) }}">From: {{ projectname }}</a>
+<div class="task-container mt-5">
+  <div class="card">
+  <header class="card-header">
+    <a class="card-header-title" href="{{url_for('main.view_project', projectname=projectname)}}">
+      Project: {{projectname}}
+    </a>
+    <p class="card-header-title">
+      {{task.name}}
+    </p>
+  </header>
+  <div class="card-content">
+    <div class="content">
+      {{ task.description }}
+      <span class="spacer has-text">__________________________________________________________</span>
+      {{task.details}}
+    </div>
   </div>
-  <h6>{{ task.description }}</h6>
-  <div class="has-text-left">{{ task.details }}</div>
+  <footer class="card-footer">
+    <a href="#" class="card-footer-item">Close</a>
+    <a class="card-footer-item" id="task-edit-button">Edit</a>
+    <a href="{{url_for('main.delete_task', taskid=task.id, projectname=projectname)}}" class="card-footer-item">Delete</a>
+  </footer>
 </div>
-<div class="comment-container">
+</div>
+<div class="comment-container mt-5">
+  {% if task.comments|length == 0 %}
+	<div class="has-text-centered has-text-justified">
+    <h4 class="is-unselectable has-text-grey has-text-centered mt-6 mb-6">Nothing here yet</h4>
+  </div>				
+  {% endif %}
   {% for c in task.comments %}
   <article class="message is-small">
   <div class="message-header">
@@ -21,12 +42,12 @@
               <i class="fas fa-reply" aria-hidden="true"></i>
             </span>
           </a>
-          <a class="level-item" aria-label="retweet">
+          <a class="level-item" aria-label="edit">
           <span class="icon is-small">
             <i class="fas fa-retweet" aria-hidden="true"></i>
           </span>
           </a>
-          <a class="level-item" aria-label="like">
+          <a class="level-item" aria-label="remember">
           <span class="icon is-small">
             <i class="fas fa-star" aria-hidden="true"></i>
           </span>
@@ -34,9 +55,7 @@
       </div>
     </nav>
   </div>
-  <div class="message-body">
-    {{c.comment}}
-  </div>
+  <div class="message-body show-whitespace">{{c.comment}}</div>
 </article>
   {% endfor %}
   <form
@@ -79,13 +98,13 @@ method="POST"
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         <input type="hidden" name="taskid" value="{{ task.id }}" />
         <div class="field">
+          <label for="comment" class="label">Extensive comment</label>
           <div class="control">
            <textarea
-            class=" input textarea is-primary first-field"
+            class="textarea is-primary first-field"
             name="comment"
-            type="text"
             placeholder="Add to this discussion..."
-            value=""
+            id="comment-input"
             ></textarea>
           </div>
         </div>
@@ -102,4 +121,63 @@ method="POST"
   </div>
   <button class="modal-close is-large" aria-label="close"></button>
 </div>
+
+					<div class="modal" id="task-edit-modal">
+						<div class="modal-background">
+						</div>
+						<div class="modal-content">
+							<div class="box signup-container">
+								<div class="has-text-centered">
+									<h1 class=title is-1>Edit task</h1>
+								</div>
+
+								<form action="/edit_task" method="POST">
+									<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+									<input type="hidden" name="targetid" value="{{ task.id }}" />
+									<div class="field">
+										<label class="label">Task name</label>
+										<div class="control">
+											<input class="input is-medium is-primary first-field" type="text" name="task_name" placeholder="Task name"
+												value="{{task.name}}" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="field">
+										<label class="label">Short task description</label>
+										<div class="control">
+											<input class="input is-medium is-primary" type="text" name="task_description"
+												placeholder="Short description" value="{{task.description}}" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="field">
+										<label class="label">Detailed task information</label>
+										<div class="control">
+											<textarea class="textarea is-medium is-primary" name="task_details" id="task-detail-input"
+												placeholder="Detailed description" autocomplete="off">{{task.details}}</textarea>
+										</div>
+									</div>
+
+									<div class="field">
+										<label class="label">Assinged to</label>
+										<div class="control">
+											<input class="input is-medium is-primary" type="text" name="task_assingee"
+												placeholder="Assing people to this task" value="{{task.assignee}}" autocomplete="off"/>
+										</div>
+									</div>
+
+									<div class="field is-grouped">
+										<div class="control">
+											<button type="submit" class="button is-primary">Submit</button>
+										</div>
+										<div class="control">
+											<button type="button" class="button is-light cancel">Cancel</button>
+										</div>
+									</div> <!-- create task-Modal form end -->
+								</form>
+
+							</div>
+						</div>
+						<button class="modal-close is-large" aria-label="close"></button>
+					</div>
 {% endblock %}

@@ -138,17 +138,20 @@ def edit_task():
 		flash('An error occured on our side. We are sorry. Please try again later!', 'error')
 		return redirect(request.referrer)
 
-@main.route('/delete_task/<taskid>', methods=['DELETE'])
+@main.route('/delete_task/<taskid>/', methods=['DELETE'])
+@main.route('/delete_task/<taskid>/<string:projectname>', methods=['GET'])
 @login_required
-def delete_task(taskid=None):
+def delete_task(taskid=None, projectname=None):
 	try:
 		task = db.session.query(Task).filter(Task.id==taskid).first()
 		db.session.delete(task)
 		db.session.commit()
-		return ('', HTTPStatus.NO_CONTENT)
+		if(request.method == 'GET'):
+			return redirect(url_for('main.view_project', projectname=projectname))
+		return ('Success', HTTPStatus.NO_CONTENT)
 	except exc.SQLAlchemyError as e:
 		flash("An error occured during deletion of task: "+e, 'error')
-		return ('', HTTPStatus.INTERNAL_SERVER_ERROR)
+		return (jsonify(e), HTTPStatus.INTERNAL_SERVER_ERROR)
 
 @main.route('/delete_project/<projectid>', methods=['DELETE'])
 @login_required
