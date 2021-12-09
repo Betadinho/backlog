@@ -1,8 +1,7 @@
-
 #signup-modal .modal-content, #login-modal .modal-content {
 	overflow: hidden;
 }
-.login-container, .signup-container {
+.login-container, .signup-container, .add-comment-container {
 	height: auto;
 }
 
@@ -45,7 +44,7 @@ ul {
 
 /* Style the collapsible content. Note: hidden by default */
 .expandable-content {
-  padding: 0 18px;
+  padding: 0;
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.2s ease-out;
@@ -63,4 +62,36 @@ ul {
 .success{
     background-color: green;
 
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #292929; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #d81b60; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(117, 117, 117); 
+}
+
+.spacer {
+    display: block;;
+    margin-top: 0.8rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    opacity: .2;
+}
+
+.show-whitespace {
+  white-space: pre;
 }

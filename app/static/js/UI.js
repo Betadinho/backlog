@@ -48,6 +48,9 @@ function manageSingleModals() {
 	
 	const stage_add_button = document.getElementById('stage-add-button');
 	const stage_add_modal = document.getElementById('stage-add-modal');
+
+	const comment_add_button = document.getElementById("comment-add-button");
+	const comment_add_modal = document.getElementById("comment-add-modal");
 	
 	const modal_group = [
 		{name:'login', button:login_button, modal:login_modal},
@@ -55,7 +58,8 @@ function manageSingleModals() {
 		{name:'createproject', button:project_create_button, modal:project_create_modal},
 		{name:'createtask', button:task_create_button, modal:task_create_modal},
 		{name:'edittask', button:task_edit_button, modal:task_edit_modal},
-		{name:'addstage', button:stage_add_button, modal:stage_add_modal}
+		{name:'addstage', button:stage_add_button, modal:stage_add_modal},
+		{name:'addstage', button:comment_add_button, modal:comment_add_modal}
 	];
 	
 	for(const e of modal_group) {

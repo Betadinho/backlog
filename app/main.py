@@ -2,9 +2,10 @@ from flask import Blueprint, render_template, redirect, request, flash, jsonify
 from flask.helpers import url_for
 from flask_login.utils import login_required
 from flask_login import current_user
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql.expression import true
 from . import db
-from .models import Task, Project, Stage
+from .models import Task, Project, Stage, Comment
 from sqlalchemy import exc
 from http import HTTPStatus
 
@@ -137,17 +138,20 @@ def edit_task():
 		flash('An error occured on our side. We are sorry. Please try again later!', 'error')
 		return redirect(request.referrer)
 
-@main.route('/delete_task/<taskid>', methods=['DELETE'])
+@main.route('/delete_task/<taskid>/', methods=['DELETE'])
+@main.route('/delete_task/<taskid>/<string:projectname>', methods=['GET'])
 @login_required
-def delete_task(taskid=None):
+def delete_task(taskid=None, projectname=None):
 	try:
 		task = db.session.query(Task).filter(Task.id==taskid).first()
 		db.session.delete(task)
 		db.session.commit()
-		return ('', HTTPStatus.NO_CONTENT)
+		if(request.method == 'GET'):
+			return redirect(url_for('main.view_project', projectname=projectname))
+		return ('Success', HTTPStatus.NO_CONTENT)
 	except exc.SQLAlchemyError as e:
 		flash("An error occured during deletion of task: "+e, 'error')
-		return ('', HTTPStatus.INTERNAL_SERVER_ERROR)
+		return (jsonify(e), HTTPStatus.INTERNAL_SERVER_ERROR)
 
 @main.route('/delete_project/<projectid>', methods=['DELETE'])
 @login_required
@@ -175,3 +179,37 @@ def persiststage():
 	except (exc.SQLAlchemyError) as e:
 		flash('An error occured while moving task to different stage', 'error')
 		return (jsonify('Error'), HTTPStatus.INTERNAL_SERVER_ERROR)
+
+@main.route('/task', methods=['GET'])
+@login_required
+def task_view():
+	taskid = request.args.get('taskid', type=int)
+	projectname = request.args.get('project_name')
+	try:
+		task = Task.query.get(taskid)
+		return render_template('task/task.html', task=task, projectname=projectname)
+	except(exec.exc.SQLAlchemyError) as e:
+		flash("Something went wrong")
+		print(e)
+		return (jsonify('Error'), HTTPStatus.INTERNAL_SERVER_ERROR)
+
+@main.route('/task', methods=['POST'])
+@login_required
+def addComment():
+	taskid = request.args.get('taskid', type=int)
+	commentText = request.form.get('comment')
+	author = current_user
+	try:
+		task = Task.query.get(taskid)
+		comment = Comment(
+			task_id=taskid,      
+			author="Alpha",
+			comment=commentText
+		)
+		task.comments.append(comment)
+		db.session.commit()
+		return redirect(request.referrer)
+	except(exec.exc.SQLAlchemyError) as e:
+		flash("Something went wrong")
+		print(e)
+		return redirect(request.referrer)
