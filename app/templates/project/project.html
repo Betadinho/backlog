@@ -6,10 +6,16 @@
 
 {% block content %}
 <param name="CSRFTOKEN" value="{{ csrf_token() }}">
-<div class="board container mt-4">
+<div class="tabs">
+	<ul>
+		<li class="tab is-active"onclick="openTab(event,'tasks')"><a>Tasks</a></li>
+		<li class="tab" onclick="openTab(event,'closed')"><a>Closed</a></li>
+	</ul>
+</div>
+
+<div class="board container mt-4 content-tab" id="tasks">
 <!-- project-title is-flex is-flex-direction-row is-justify-content-space-between -->
     <div class="level">
-			<h2 class="level-item">{{ project.name }}</h2>
 			<p class="level-item">{{ project.description }}</p>
 			<p class="level-item">{{ project.owner }}</p>
 				<a class="level-item" id="task-create-button">
@@ -27,14 +33,15 @@
 			</span>
 	</div>
 
-    <div class="columns">
-	{% for s in project.stages %}
-        <div class="column stage is-one-third dropzone">
-		<param name="stageid" value="{{ s.id }}">
-            <div class="stage-title">
-                <h5> {{ s.name }}</h5>
-            </div>
-            <div class="stage-content">
+	<div class="columns">
+		{% for s in project.stages %}
+			{% if s.name != 'closed' %}
+				<div class="column stage is-one-third dropzone">
+				<param name="stageid" value="{{ s.id }}">
+				<div class="stage-title">
+					<h5> {{ s.name }}</h5>
+				</div>
+				<div class="stage-content">
 				{% if s.tasks|length == 0 %}
 					<h4 class="empty-stage-msg is-unselectable has-text-grey has-text-centered">Nothing here yet</h4>
 				{% endif %}
@@ -50,13 +57,13 @@
 																	</a>
                                 </p>
                                 <div class="is-flex is-justify-content-flex-end">
-                                    <span class="icon has-text-info icon is-medium">
-                                        <a id="task-edit-button" onclick="toggleSpecificModal({targetid:{{t.id}}, action:'e', target:'t'})">
+                                    <span class="icon has-text-primary icon is-medium">
+                                        <p id="task-edit-button" onclick="toggleSpecificModal({targetid:{{t.id}}, action:'e', target:'t'})">
                                             <i class="far fa-edit fa"></i>
-                                        </a>
+                                        </p>
                                     </span>
                                     <span class="icon has-text-info icon is-medium">
-                                        <a id="task-close-button" onclick="taskController({{t.id}}, 'close')">
+                                        <a id="task-close-button" href="{{url_for('main.closetask', taskid=t.id, closedstageid=closed_stage_id)}}">
                                             <i class="far fa-window-close fa"></i>
                                         </a>
                                     </span>
@@ -152,11 +159,98 @@
 						</div>
 						<button class="modal-close is-large" aria-label="close"></button>
 					</div> <!-- edit task Modals END -->
-	{% endfor %}
-                </ul>
+			{% endfor %}
+								</ul>
             </div>
-        </div>
-{% endfor %}
+				</div>
+		{% endif%}
+	{% endfor %}
+	</div>
+</div>
+
+<div class="board container mt-4 content-tab not-first-tab" id="closed">
+<!-- project-title is-flex is-flex-direction-row is-justify-content-space-between -->
+    <div class="level">
+			<p class="level-item">{{ project.description }}</p>
+			<p class="level-item">{{ project.owner }}</p>
+				<a class="level-item" id="task-create-button">
+					<i class="fas fa-plus mr-1"></i> 
+					<p>New Task</p>
+				</a>
+				<a class="level-item" id="stage-add-button">
+					<i class="fas fa-plus mr-1"></i> 
+					<p>Add Stage</p>
+				</a>
+			<span class="level-item icon has-text-info icon is-medium">
+				<a id="project-edit-button" onclick="toggleSpecificModal({targetid:{{project.id}}, action:'e', target:'p'})">
+					<i class="far fa-edit fa-lg"></i>
+				</a>
+			</span>
+	</div>
+
+	<div class="container closed-stage">
+		<div class="stage-content tile is-ancestor">
+			{% if project.stages[1].tasks|length == 0 %}
+				<h4 class="empty-stage-msg is-unselectable has-text-grey has-text-centered">Nothing here yet</h4>
+			{% endif %}
+					{% for t in project.stages[1].tasks %}
+						<div id="task{{t.id}}" class="task card mb-2 tile mx-1 is-4">
+							<param name="taskid" value="{{ t.id }}">
+							<div class="expandable-container tile is-child">
+								<header class="card-header">
+										<p class="card-header-title task-theader-title" draggable='false'>
+											<a href="{{ url_for('main.task_view', taskid=t.id, project_name=project.name) }}" draggable='false'>
+													{{ t.name }}
+											</a>
+										</p>
+										<div class="is-flex is-justify-content-flex-end">
+												<span class="icon has-text-info icon is-medium">
+														<a id="task-edit-button" onclick="toggleSpecificModal({targetid:{{t.id}}, action:'e', target:'t'})">
+																<i class="far fa-edit fa"></i>
+														</a>
+												</span>
+												<span class="icon has-text-info icon is-medium">
+														<a id="task-close-button" onclick="taskController({{t.id}}, 'close')">
+																<i class="far fa-window-close fa"></i>
+														</a>
+												</span>
+												<span class="icon has-text-info icon is-medium">
+														<a id="task-delete-button" onclick="taskController( {{t.id}}, 'del', '{{csrf_token()}}')">
+																<i class="far fa-trash fa"></i>
+														</a>
+												</span>
+												<span class="icon has-text-warning icon is-medium">
+														<a id="task-details-button" class="collapsible" onclick="toggleCardDetails(this)">
+																<i class="fas fa-lg fa-angle-down" aria-hidden="true"></i>
+														</a>
+												</span>
+										</div>
+								</header>
+							<div class=" card-content">
+								<div class="content">
+									<p class="task-details">
+										{{ t.description }}
+									</p>
+									<p>____________________</p>
+									<div class="expandable-content"><p>{{ t.details }}</p></div>
+									<br>
+								</div>
+								</div>
+							<footer class="card-footer is-flex is-justify-content-flex-end">
+									<span class="is-flex flex-start">
+											<time datetime="2016-1-1" class="has-text-weight-light is-size-7">Created:
+													{{ t.time_created }}
+											</time>
+									</span>
+									<span class="is-flex">
+											<p class="has-text-weight-light is-size-7 pl-3"> Assigned: {{t.owner}}</p>
+									</span>
+							</footer>
+                        </div>
+                    </div>
+
+					{% endfor %}
+			</div>
 	</div>
 </div>
 
@@ -308,4 +402,5 @@
 </div> <!-- create task Modals END -->
 
 <script src="{{ url_for('static', filename='js/crudController.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
 {% endblock %}

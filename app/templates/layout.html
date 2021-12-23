@@ -28,11 +28,7 @@
 		  </div>
 
 		  <div id="navbarBasicExample" class="navbar-menu">
-		    <div class="navbar-start">
-                <a class="navbar-item" href="/">
-                    Home
-                </a>
-
+		    <div class="navbar">
                 <a class="navbar-item">
                     Documentation
                 </a>
@@ -70,9 +66,14 @@
 								<!-- TODO: DISPLAY ALL CURENTLY OWNED TASKS-->
                             </div>
                         </div>
-                {% endif %}
+												{% endif %}
                         
-		    </div>
+											</div>
+											<div class="navbar-mid navbar-item">
+												{% if project %}
+											<p class="is-size-3" class="navbar-irem has-text-centered">{{project.name}}</p>
+											{% endif %}
+											</div>
 
 		    <div class="navbar-end">
 		      <div class="navbar-item">

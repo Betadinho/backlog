@@ -45,12 +45,19 @@ def view_project():
 		projectname = request.args.get('projectname')
 		projects = Project.query.all()
 		project = Project.query.filter_by(name=projectname).first_or_404()
-		return render_template('project/project.html', project=project, projects=projects)
-	# Accessing this endpot with POST is a request to add a stage to the project 
+		for s in project.stages:
+			if s.name == 'closed':
+				closed_stage_id = s.id
+				break
+		else:
+			closed_stage_id = None
+
+		return render_template('project/project.html', project=project, projects=projects, closed_stage_id=closed_stage_id)
+	# Accessing this endpot with POST is a request to add a new stage to the project 
 	if(request.method == 'POST'):
 		projectid = request.form.get('projectid')
 		project = Project.query.filter_by(id=projectid).first_or_404()
-		if len(project.stages) >= 3:
+		if len(project.stages) >= 4:
 			flash('Projects cant hold more then 3 stages.', 'error')
 			return redirect(request.referrer)
 		stage = Stage(
@@ -72,7 +79,7 @@ def create_project():
 	owner_id = current_user.get_id()
 
 	project = Project(name=name, owner_id=owner_id, description=description, details=details)
-	project.stages = [Stage(name="Backlog")]
+	project.stages.extend([Stage(name="Backlog"), Stage(name="closed")])
 
 	db.session.add(project)
 	db.session.commit()
@@ -178,6 +185,20 @@ def persiststage():
 		return (jsonify('Success'), HTTPStatus.OK)
 	except (exc.SQLAlchemyError) as e:
 		flash('An error occured while moving task to different stage', 'error')
+		return (jsonify('Error'), HTTPStatus.INTERNAL_SERVER_ERROR)
+
+@main.route('/closetask', methods=['POST', 'GET'])
+@login_required
+def closetask():
+	taskid = request.args.get('taskid', default=None, type=int)
+	closedstageid = request.args.get('closedstageid', default=None)
+	try:
+		task = Task.query.get(taskid)
+		task.stage_id = closedstageid
+		db.session.commit()
+		return (redirect(request.referrer))
+	except (exc.SQLAlchemyError) as e:
+		flash('An error occured while closing task', 'error')
 		return (jsonify('Error'), HTTPStatus.INTERNAL_SERVER_ERROR)
 
 @main.route('/task', methods=['GET'])
