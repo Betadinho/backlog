@@ -107,13 +107,21 @@ ul {
 }
 
 .tile.is-ancestor {
-   display: flex; 
-   flex-wrap: wrap; 
+   display: flex;
+   flex-wrap: wrap;
 }
 
 .container.content, .container.board, .container.closed-stage {
   margin: 0;
   max-width: 100vw;
   margin-left: .5rem;
-  margin-right: .5rem;
+  margin-right: .5rem;;
+}
+
+.stage-content {
+  justify-content: center;
+}
+
+.closed-task {
+  max-width: 32%;
 }

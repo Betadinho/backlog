@@ -194,7 +194,7 @@
 				<h4 class="empty-stage-msg is-unselectable has-text-grey has-text-centered">Nothing here yet</h4>
 			{% endif %}
 					{% for t in project.stages[1].tasks %}
-						<div id="task{{t.id}}" class="task card mb-2 tile mx-1 is-4">
+						<div id="task{{t.id}}" class="task card mb-2 tile is-4 closed-task mx-1">
 							<param name="taskid" value="{{ t.id }}">
 							<div class="expandable-container tile is-child">
 								<header class="card-header">
