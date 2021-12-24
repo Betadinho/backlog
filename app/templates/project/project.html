@@ -10,29 +10,30 @@
 	<ul>
 		<li class="tab is-active"onclick="openTab(event,'tasks')"><a>Tasks</a></li>
 		<li class="tab" onclick="openTab(event,'closed')"><a>Closed</a></li>
+		<li class="tab" onclick="openTab(event,'details')"><a>Details</a></li>
+		<li>
+			<a class="level-item" id="stage-add-button">
+				<i class="fas fa-plus mr-1"></i> 
+				<p>Stage</p>
+			</a>
+		</li>
+		<li>
+			<a class="level-item" id="task-create-button">
+				<i class="fas fa-plus mr-1"></i> 
+				<p>Task</p>
+			</a>
+		</li>
+		<li>
+			<a id="project-edit-button" onclick="toggleSpecificModal({targetid:{{project.id}}, action:'e', target:'p'})">
+				<i class="far fa-edit fa-lg"></i>
+				<p>Edit</p>
+			</a>
+		</li>
 	</ul>
 </div>
 
 <div class="board container mt-4 content-tab" id="tasks">
 <!-- project-title is-flex is-flex-direction-row is-justify-content-space-between -->
-    <div class="level">
-			<p class="level-item">{{ project.description }}</p>
-			<p class="level-item">{{ project.owner }}</p>
-				<a class="level-item" id="task-create-button">
-					<i class="fas fa-plus mr-1"></i> 
-					<p>New Task</p>
-				</a>
-				<a class="level-item" id="stage-add-button">
-					<i class="fas fa-plus mr-1"></i> 
-					<p>Add Stage</p>
-				</a>
-			<span class="level-item icon has-text-info icon is-medium">
-				<a id="project-edit-button" onclick="toggleSpecificModal({targetid:{{project.id}}, action:'e', target:'p'})">
-					<i class="far fa-edit fa-lg"></i>
-				</a>
-			</span>
-	</div>
-
 	<div class="columns">
 		{% for s in project.stages %}
 			{% if s.name != 'closed' %}
@@ -57,24 +58,24 @@
 																	</a>
                                 </p>
                                 <div class="is-flex is-justify-content-flex-end">
-                                    <span class="icon has-text-primary icon is-medium">
+                                    <span class="icon has-text-info icon is-medium">
                                         <p id="task-edit-button" onclick="toggleSpecificModal({targetid:{{t.id}}, action:'e', target:'t'})">
                                             <i class="far fa-edit fa"></i>
                                         </p>
                                     </span>
-                                    <span class="icon has-text-info icon is-medium">
-                                        <a id="task-close-button" href="{{url_for('main.closetask', taskid=t.id, closedstageid=closed_stage_id)}}">
-                                            <i class="far fa-window-close fa"></i>
+                                    <span class="icon icon is-medium">
+                                        <a id="task-close-button" href="{{ url_for('main.closetask', taskid=t.id, closedstageid=closed_stage_id) }}">
+                                            <i class="far fa-window-close fa has-text-warning"></i>
                                         </a>
                                     </span>
-                                    <span class="icon has-text-info icon is-medium">
+                                    <span class="icon icon is-medium">
                                         <a id="task-delete-button" onclick="taskController( {{t.id}}, 'del', '{{csrf_token()}}')">
-                                            <i class="far fa-trash fa"></i>
+                                            <i class="far fa-trash fa has-text-danger"></i>
                                         </a>
                                     </span>
-                                    <span class="icon has-text-warning icon is-medium">
+                                    <span class="icon has-text-infor icon is-medium">
                                         <a id="task-details-button" class="collapsible" onclick="toggleCardDetails(this)">
-                                            <i class="fas fa-lg fa-angle-down" aria-hidden="true"></i>
+                                            <i class="fas fa-lg fa-angle-down has-text-primary" aria-hidden="true"></i>
                                         </a>
                                     </span>
                                 </div>
@@ -170,23 +171,6 @@
 
 <div class="board container mt-4 content-tab not-first-tab" id="closed">
 <!-- project-title is-flex is-flex-direction-row is-justify-content-space-between -->
-    <div class="level">
-			<p class="level-item">{{ project.description }}</p>
-			<p class="level-item">{{ project.owner }}</p>
-				<a class="level-item" id="task-create-button">
-					<i class="fas fa-plus mr-1"></i> 
-					<p>New Task</p>
-				</a>
-				<a class="level-item" id="stage-add-button">
-					<i class="fas fa-plus mr-1"></i> 
-					<p>Add Stage</p>
-				</a>
-			<span class="level-item icon has-text-info icon is-medium">
-				<a id="project-edit-button" onclick="toggleSpecificModal({targetid:{{project.id}}, action:'e', target:'p'})">
-					<i class="far fa-edit fa-lg"></i>
-				</a>
-			</span>
-	</div>
 
 	<div class="container closed-stage">
 		<div class="stage-content tile is-ancestor">
@@ -205,23 +189,23 @@
 										</p>
 										<div class="is-flex is-justify-content-flex-end">
 												<span class="icon has-text-info icon is-medium">
-														<a id="task-edit-button" onclick="toggleSpecificModal({targetid:{{t.id}}, action:'e', target:'t'})">
+														<p id="task-edit-button" onclick="toggleSpecificModal({targetid:{{t.id}}, action:'e', target:'t'})">
 																<i class="far fa-edit fa"></i>
+														</p>
+												</span>
+												<span class="icon icon is-medium">
+														<a id="task-close-button" href="{{ url_for('main.closetask', taskid=t.id, closedstageid=closed_stage_id) }}">
+																<i class="far fa-window-close fa has-text-warning"></i>
 														</a>
 												</span>
-												<span class="icon has-text-info icon is-medium">
-														<a id="task-close-button" onclick="taskController({{t.id}}, 'close')">
-																<i class="far fa-window-close fa"></i>
-														</a>
-												</span>
-												<span class="icon has-text-info icon is-medium">
+												<span class="icon icon is-medium">
 														<a id="task-delete-button" onclick="taskController( {{t.id}}, 'del', '{{csrf_token()}}')">
-																<i class="far fa-trash fa"></i>
+																<i class="far fa-trash fa has-text-danger"></i>
 														</a>
 												</span>
-												<span class="icon has-text-warning icon is-medium">
+												<span class="icon has-text-infor icon is-medium">
 														<a id="task-details-button" class="collapsible" onclick="toggleCardDetails(this)">
-																<i class="fas fa-lg fa-angle-down" aria-hidden="true"></i>
+																<i class="fas fa-lg fa-angle-down has-text-primary" aria-hidden="true"></i>
 														</a>
 												</span>
 										</div>
@@ -251,6 +235,14 @@
 
 					{% endfor %}
 			</div>
+	</div>
+</div>
+
+<div id="details" class="content-tab not-first-tab">
+	<h4 class="px-5">{{project.description}}</h4>
+	<div class="px-5">
+		<p>{{project.owner}}</p>
+		<p>{{project.details}}</p>
 	</div>
 </div>
 
