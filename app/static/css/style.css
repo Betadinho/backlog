@@ -125,3 +125,16 @@ ul {
 .closed-task {
   max-width: 32%;
 }
+
+article.message {
+  display: inline-block;
+  min-width: 40%;
+}
+
+#comment-add-modal .modal-content{
+  width: 90vw;
+}
+
+#comment-add-modal .textarea{
+  height: 50vh;
+}

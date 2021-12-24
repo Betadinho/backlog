@@ -191,9 +191,16 @@ def persiststage():
 @login_required
 def closetask():
 	taskid = request.args.get('taskid', default=None, type=int)
-	closedstageid = request.args.get('closedstageid', default=None)
+	closedstageid = request.args.get('closedstageid')
+	task = Task.query.get(taskid)
 	try:
-		task = Task.query.get(taskid)
+		if closedstageid == "None":
+			projectId = Stage.query.get(task.stage_id).project_id
+			stages = Project.query.get(projectId).stages
+			for s in stages:
+				if s.name == "closed":
+					closedstageid = s.id
+
 		task.stage_id = closedstageid
 		db.session.commit()
 		return (redirect(request.referrer))

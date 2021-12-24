@@ -17,12 +17,24 @@
       {{task.details}}
     </div>
   </div>
-  <footer class="card-footer">
-    <a href="#" class="card-footer-item">Close</a>
-    <a class="card-footer-item" id="task-edit-button">Edit</a>
-    <a href="{{url_for('main.delete_task', taskid=task.id, projectname=projectname)}}" class="card-footer-item">Delete</a>
-  </footer>
-</div>
+  <footer class="card-footer level-right">
+    <span class=" level-item icon has-text-info icon is-medium">
+      <p id="task-edit-button" onclick="toggleSpecificModal({targetid:{{task.id}}, action:'e', target:'task'})">
+        <i class="far fa-edit fa"></i>
+      </p>
+      </span>
+      <span class="level-item icon icon is-medium">
+        <a id="task-close-button" href="{{ url_for('main.closetask', taskid=task.id, closedstageid="None") }}">
+          <i class="far fa-window-close fa has-text-warning"></i>
+        </a>
+      </span>
+      <span class="level-item icon icon is-medium">
+        <a id="task-delete-button" onclick="taskController( {{task.id}}, 'del', '{{csrf_token()}}')">
+          <i class="far fa-trash fa has-text-danger"></i>
+        </a>
+      </span>
+    </footer>
+  </div>
 </div>
 <div class="comment-container mt-5">
   {% if task.comments|length == 0 %}
@@ -31,36 +43,36 @@
   </div>				
   {% endif %}
   {% for c in task.comments %}
-  <article class="message is-small">
-  <div class="message-header">
-    <p>{{c.author}}</p> 
-    <small>
-      <time datetime="{{time_created}}">
-        {{c.time_created}}
-      </time>
-    </small>
-    <nav class="level is-mobile">
+<div class="my-5">
+    <article class="message is-small">
+    <div class="message-body">
+      <p class="show-whitespace">{{c.comment}}</p>
+      <nav class="level is-mobile">
         <div class="level-left">
+          <p class="level-item has-text-link show-whitespace">from: <b>{{c.author}}</b></p>    
+        </div>
+        <div class="level-right">
+          <time class="level-item" datetime="{{time_created}}">{{c.time_created}}</time>
           <a class="level-item" aria-label="reply">
             <span class="icon is-small">
               <i class="fas fa-reply" aria-hidden="true"></i>
             </span>
           </a>
           <a class="level-item" aria-label="edit">
-          <span class="icon is-small">
-            <i class="fas fa-retweet" aria-hidden="true"></i>
-          </span>
+            <span class="icon is-small">
+              <i class="fas fa-retweet" aria-hidden="true"></i>
+            </span>
           </a>
           <a class="level-item" aria-label="remember">
-          <span class="icon is-small">
-            <i class="fas fa-star" aria-hidden="true"></i>
-          </span>
-        </a>
-      </div>
-    </nav>
-  </div>
-  <div class="message-body show-whitespace">{{c.comment}}</div>
-</article>
+            <span class="icon is-small">
+              <i class="fas fa-star" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </article>
+</div>
   {% endfor %}
   <form
 action="{{ url_for('main.addComment', taskid=task.id) }}"
@@ -88,11 +100,11 @@ method="POST"
 
 <div class="modal" id="comment-add-modal">
   <div class="modal-background"></div>
-    <div class="modal-content">
-      <div class="box add-comment-container">
-        <div class="has-text-centered">
-          <h1 class="title" is-1>Add Comment</h1>
-        </div>
+  <div class="modal-content">
+    <div class="box add-comment-container">
+      <div class="has-text-centered">
+        <h1 class="title" is-1>Add Comment</h1>
+    </div>
 
       <form
         action="{{ url_for('main.addComment', taskid=task.id) }}"
@@ -102,7 +114,6 @@ method="POST"
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         <input type="hidden" name="taskid" value="{{ task.id }}" />
         <div class="field">
-          <label for="comment" class="label">Extensive comment</label>
           <div class="control">
            <textarea
             class="textarea is-primary first-field"
