@@ -32,48 +32,57 @@
                 <a class="navbar-item">
                     Documentation
                 </a>
-                {% if current_user.is_authenticated %}  
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link">
-                                My Projects
-                            </a>
-                            
-                            <div class="navbar-dropdown">
-                                <a class="navbar-item"  id="project-create-button">
-                                    <i class="fas fa-plus mr-1"></i> 
-                                	<b>New Project</b>
-                                </a>
-                                
-                                {% if projects %}
-                                        {% for element in projects %}
-                                        <a class="navbar-item" href="{{ url_for('main.view_project', projectname=element.name) }}">
-                                            {{ element.name }}
-                                        </a>
-                                        {% endfor %}
-                                {% endif %}
-                                
-                                
-                                
-                            </div>
-                        </div>
+				{% if current_user.is_authenticated %}  
+				<div class="navbar-item has-dropdown is-hoverable">
+					<a class="navbar-link">
+						My Projects
+					</a>
+					
+					<div class="navbar-dropdown">
+						<a class="navbar-item"  id="project-create-button">
+							<i class="fas fa-plus mr-1"></i> 
+							<b>New Project</b>
+						</a>
+						
+						{% if projects %}
+						{% for element in projects %}
+						<a class="navbar-item" href="{{ url_for('main.view_project', projectname=element.name) }}">
+							{{ element.name }}
+						</a>
+						{% endfor %}
+						{% endif %}
+					
+					</div>
+				</div>
+					
+				<div class="navbar-item has-dropdown is-hoverable">
+					<a class="navbar-link">
+						Tasks
+					</a>
+					
+					<div class="navbar-dropdown">
+						<!-- TODO: DISPLAY ALL CURENTLY OWNED TASKS-->
+						{% if project %}
+							{% for s in project.stages %}
+								{% if s.name !='closed' %}
+									{% for t in s.tasks %}
+										<a class="navbar-item" href="{{ url_for('main.task_view', taskid=t.id, project_name=project.name) }}">
+											{{ t.name }}
+										</a>
+									{% endfor %}
+								{% endif %}
+							{% endfor%}
+						{% endif %}
+					</div>
+				</div>
+				{% endif %}
                         
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <a class="navbar-link">
-                                Tasks
-                            </a>
-                            
-                            <div class="navbar-dropdown">
-								<!-- TODO: DISPLAY ALL CURENTLY OWNED TASKS-->
-                            </div>
-                        </div>
-												{% endif %}
-                        
-											</div>
-											<div class="navbar-mid navbar-item">
-												{% if project %}
-											<p class="is-size-3" class="navbar-irem has-text-centered">{{project.name}}</p>
-											{% endif %}
-											</div>
+			</div>
+			<div class="navbar-mid navbar-item">
+				{% if project %}
+				<p class="is-size-3" class="navbar-irem has-text-centered">{{project.name}}</p>
+				{% endif %}
+			</div>
 
 		    <div class="navbar-end">
 		      <div class="navbar-item">
