@@ -20,13 +20,13 @@ def signup():
     #Check for existing user with the specified email
     user = User.query.filter_by(email=email).first()
 
-    if user:  # Redirect if userr does exist
+    if user:  # Redirect if user exists
         flash("Email already exists! Login if it's you!", 'error')
         return redirect('/')
     else:
         #create new user with form data
         form = SignupForm()
-        new_user = User(email=email, name=name, password=generate_password_hash(password=password, method='sha256', salt_length=8), role=role)
+        new_user = User(email=email, name=name, password=generate_password_hash(password=password, salt_length=8), role=role)
 
         #add new user to database
         if form.validate_on_submit():
