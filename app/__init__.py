@@ -3,9 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_wtf import csrf
 from flask_wtf.csrf import CSRFProtect
+from os import path
 
 # Init SQLAlchemy
 db = SQLAlchemy()
+TEST_DB_URI = 'sqlite:///db.sqlite'
 
 #class CustomFlask(Flask):
 #   Configure custom jinja markers ##
@@ -17,7 +19,7 @@ db = SQLAlchemy()
 #       comment_end_string='#>'
 #    ))
 
-csrf = CSRFProtect()
+csrf = CSRFProtect() 
 
 def create_app():
     # Create flask app with Customized Flask instance
@@ -26,7 +28,7 @@ def create_app():
     # App configurations (Maybe move this to seperate file?)
     # SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future. This removes the annoying warning,
     app.config.update(
-        SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite',
+        SQLALCHEMY_DATABASE_URI = TEST_DB_URI,
         SECRET_KEY = 'secret-key-goes-here',
         SQLALCHEMY_TRACK_MODIFICATIONS = False,
     )
@@ -45,6 +47,8 @@ def create_app():
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
+
+
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -65,3 +69,11 @@ def create_app():
     app.register_blueprint(test_blueprint)
 
     return app
+
+app=create_app()
+if not path.exists("app/db.sqlite") and app.config.get('SQLALCHEMY_DATABASE_URI') == TEST_DB_URI:
+    with app.app_context():
+        db.create_all()
+    print(" * Test-database created", flush=True)
+    # session.add(User(email="Admin@admin.com", name="Admin", password=generate_password_hash(password="admin", method='sha256', salt_length=8), role="Admin"))
+    #print("Admin account created.", flush=True)
