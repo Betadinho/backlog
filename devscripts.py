@@ -16,9 +16,3 @@ else:
     with app.app_context():
         db.create_all(app=create_app())
     print("Database created.", flush=True)
-
-'''def db_setup():
-    db.create_all(app=create_app())
-    print("test2", flush=True)
-    return
-'''
