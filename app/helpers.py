@@ -3,11 +3,9 @@ from werkzeug.security import generate_password_hash
 
 # Flask creates a rule for the static endpoint at initialization
 # this means that setting static_url_path and static_folder
-# after initilzation do not change the result of url_for('static', filename=...)
+# after initilzation does not change the result of url_for('static', filename=...)
 
-# app is in instance of the Flask class
-
-# Delete the old rule and substitute your own
+# Deletes the old rule and substitute own
 # Note this looks like it could change from implementation
 # to implementation but I see no other way
 def delete_static_rule(new_path, app):

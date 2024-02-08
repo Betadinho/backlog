@@ -8,7 +8,7 @@ from .models import Task, Project, Stage
 
 test = Blueprint('test', __name__)
 
-#Test Routes
+# Test Routes
 @test.route('/test')
 def test_template():
     current_user

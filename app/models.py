@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
     projects = db.relationship('Project', backref='user', lazy=True)
     assigned_tasks = db.relationship('Task', backref='user', lazy=True)
 
-#Project is holding Stages which are holding tasks
+# Project is holding Stages which are holding tasks
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)

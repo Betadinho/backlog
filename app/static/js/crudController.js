@@ -112,7 +112,7 @@ function taskController(taskid, cmd, csrf) {
 }
 // eslint-disable-next-line no-unused-vars
 function projectController(projectid, cmd, csrf) {
-	//const reload = window.location.href;
+	// const reload = window.location.href;
 	const headers = new Headers({
 		'X-CSRF-TOKEN': csrf
 	});
@@ -132,7 +132,7 @@ function projectController(projectid, cmd, csrf) {
 			});
 		break;
 	case 'close':
-		//Do stuff
+		// Do stuff
 		break;
 			
 	}

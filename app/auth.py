@@ -17,18 +17,18 @@ def signup():
     password = request.form.get('password')
     role = 'User'
 
-    #Check for existing user with the specified email
+    # Check for existing user with the specified email
     user = User.query.filter_by(email=email).first()
 
     if user:  # Redirect if user exists
         flash("Email already exists! Login if it's you!", 'error')
         return redirect('/')
     else:
-        #create new user with form data
+        # Create new user with form data
         form = SignupForm()
         new_user = User(email=email, name=name, password=generate_password_hash(password=password, salt_length=8), role=role)
 
-        #add new user to database
+        # Add new user to database
         if form.validate_on_submit():
             try:
                 db.session.add(new_user)
@@ -36,7 +36,7 @@ def signup():
                 flash("Signup successfull! You can now login with your new acccount!", 'success')
                 return redirect('/')
             except exc.SQLAlchemyError:
-                #Go to login / Log user in immediately
+                # Go to login / Log user in immediately
                 flash("An Error Occured.", 'error')
                 return redirect('/')
         else:

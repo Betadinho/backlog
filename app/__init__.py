@@ -26,21 +26,13 @@ def create_app():
     app = Flask(__name__)
 
     # App configurations (Maybe move this to seperate file?)
-    # SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future. This removes the annoying warning,
     app.config.update(
         SQLALCHEMY_DATABASE_URI = TEST_DB_URI,
         SECRET_KEY = 'secret-key-goes-here',
-        SQLALCHEMY_TRACK_MODIFICATIONS = False,
+        SQLALCHEMY_TRACK_MODIFICATIONS = False, # SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead. This removes the annoying warning,
+
     )
 
-	# Flask creates a rule for the static endpoint at initialization (above)
-	# setting static_url_path and static_folder after initilzation do not change the result of url_for('static', filename=...)
-	# Workaround: (closer explenation in helpers.py)
-	# Delete old static endpoint rule and substitute own (helpers.del_static_rule)
-    #app = h.delete_static_rule(new_path="/app/static", app=app)
-
-
-# if the old database still is needed move it before doing this!
     csrf.init_app(app)
     db.init_app(app)
 
@@ -52,7 +44,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        # since the user_id is just the primary key of our user table, use it in the query for the user
+        # since the user_id is just the primary key of the user table, we use it in the query for the user
         from .models import User
         return User.query.get(int(user_id))
 
@@ -70,10 +62,11 @@ def create_app():
 
     return app
 
+# Create database and initiate with tables defined in models.py
 app=create_app()
 if not path.exists("app/db.sqlite") and app.config.get('SQLALCHEMY_DATABASE_URI') == TEST_DB_URI:
     with app.app_context():
         db.create_all()
     print(" * Test-database created", flush=True)
     # session.add(User(email="Admin@admin.com", name="Admin", password=generate_password_hash(password="admin", method='sha256', salt_length=8), role="Admin"))
-    #print("Admin account created.", flush=True)
+    # print("Admin account created.", flush=True)

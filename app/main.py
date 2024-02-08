@@ -11,8 +11,8 @@ from http import HTTPStatus
 
 main = Blueprint('main', __name__)
 
-#Production Routes
-#Home view
+# Production Routes
+# Home view
 """
 Homa page route
 Components:
