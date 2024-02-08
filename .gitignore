@@ -8,6 +8,7 @@ package-lock.json
 node_modules/
 db.sqlite
 darkly_modified/
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
