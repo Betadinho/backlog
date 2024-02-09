@@ -31,8 +31,8 @@ def create_project_test(amount=5):
 		owner_id = current_user.get_id()
 
 		project = Project(name=name, owner_id=owner_id, description=description, details=details)
-		project.stages = [Stage(name="All Tasks")]
-		project.stages = [Stage(name="Working On")]
+		project.stages = [Stage(name="Tasks")]
+		project.stages = [Stage(name="In Progress")]
 		project.stages = [Stage(name="Review")]
 
 		db.session.add(project)
