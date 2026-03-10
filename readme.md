@@ -7,7 +7,7 @@ multiple stages (i.e. In progress; Done etc.)
 # Examples
 
 ### Project view
-![All Notes on the neck](docs/images/screenshot1.png)
+![Project View](docs/images/screenshot1.png)
 
 # Get it to run locally
 
@@ -18,7 +18,7 @@ multiple stages (i.e. In progress; Done etc.)
 - Set an environment variable ("FLASK_APP=app/\_\_init\_\_.py")
 - Run flask development server 
     flask run 
-- Open the local url gevin by flask in command line
+- Open the local url given by flask in command line
 
 # TODO
 
