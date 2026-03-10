@@ -11,14 +11,36 @@ multiple stages (i.e. In progress; Done etc.)
 
 # Get it to run locally
 
- - Install python
- - Clone repository and create a python venv
- - Activate the venv and install packeges from "requirements.txt" 
-    (if pip returns any errors, try installing them one by one)
-- Set an environment variable ("FLASK_APP=app/\_\_init\_\_.py")
-- Run flask development server 
-    flask run 
-- Open the local url given by flask in command line
+ -  Install Python3 (Via your package manager or https://www.python.org/downloads/)
+ -  Clone this repository
+ -  Either install dependencies from "requirements.txt" system wide or ideally create a 
+    
+    virtual environment in project root (/backlog) and install packages from "requirements.txt" there
+    
+    https://docs.python.org/3/library/venv.html#creating-virtual-environments 
+
+    on Linux(Ubuntu) in "backlog/":
+    ```
+    python3 -m venv your_venv_name
+    ```
+
+    ```
+    source your_venv_name/bin/activate
+    ```
+
+    ```
+    python3 -m pip install -r requirements.txt
+    ```
+
+-   Set environment variable for the flask app
+    ```
+    FLASK_APP=app/\_\_init\_\_.py"
+    ```
+-   Run flask development server
+    ```
+    flask run
+    ```
+-   Open the URL given by flask in command line
 
 # TODO
 
