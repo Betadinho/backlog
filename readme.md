@@ -34,7 +34,11 @@ multiple stages (i.e. In progress; Done etc.)
 
 -   Set environment variable for the flask app
     ```
-    FLASK_APP=app/\_\_init\_\_.py"
+    FLASK_APP=app/\_\_init\_\_.py
+    ```
+-   (Optional) Set environment variable activating debug mode
+    ```
+    FLASK_DEBUG=TRUE
     ```
 -   Run flask development server
     ```
